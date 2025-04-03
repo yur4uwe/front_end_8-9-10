@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"movie_theater/pkg/handlers"
+	"movie_theater/pkg/middleware"
 	"net/http"
 	"os"
 	"os/signal"
@@ -10,11 +12,15 @@ import (
 func main() {
 	fs := http.FileServer(http.Dir("../frontend/build"))
 
-	handler := http.NewServeMux()
-	handler.Handle("/", fs)
+	router := http.NewServeMux()
+	router.Handle("/", fs)
+	router.HandleFunc("/api/hello", handlers.HelloWorldHandler)
 
 	exit := make(chan os.Signal, 1)
 	signal.Notify(exit, os.Interrupt)
+
+	handler := middleware.Logging(router)
+	handler = middleware.EnableCORS(handler)
 
 	server := &http.Server{
 		Addr:    ":8080",
