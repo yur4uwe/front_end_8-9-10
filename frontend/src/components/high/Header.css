@@ -1,0 +1,151 @@
+/* Full-height header */
+.header {
+    width: calc(100% - 40px);
+    height: 300px;
+    /* Full height */
+    background-color: #333;
+    color: white;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    /* Smooth transition */
+    z-index: 1000;
+}
+
+/* Compressed header when scrolled */
+.--scrolled {
+    height: 60px;
+    /* Compressed height */
+    background: #333;
+    /* Solid background color */
+    align-items: center;
+}
+
+/* Outer header always fixed at the top */
+.header-block {
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 300px;
+    background-color: #333;
+    /* Ensures text remains legible */
+}
+
+/* Inner sticky header that "follows" the page top.
+   In this setup its height is determined by padding. */
+.header-sticky {
+    width: calc(100% - 40px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: inherit;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* Header image */
+.header__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Cover the entire header area */
+    opacity: 0.8;
+    /* Slightly transparent */
+    display: none;
+}
+
+/* Header content */
+.header__content {
+    position: sticky;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: min-content;
+    height: 100%;
+}
+
+.--scrolled .header__content {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    /* Align items in a row when scrolled */
+}
+
+/* Title styling */
+.header__title {
+    font-size: 5rem;
+    margin: 0;
+    transition: font-size 0.3s ease;
+    text-shadow: #333 0px 0px 5px, #000 0px 0px 10px;
+}
+
+.--scrolled .header__title {
+    font-size: 1.5rem;
+    /* Smaller title when scrolled */
+}
+
+.header-title {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+/* Navigation links */
+.header__nav {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+
+.--scrolled .header__nav {
+    flex-direction: row;
+    /* Horizontal layout when scrolled */
+}
+
+.header__link {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.header__link:hover {
+    color: #f39c12;
+    /* Highlight color on hover */
+}
+
+.header-nav {
+    display: flex;
+    gap: 15px;
+}
+
+.header-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.header-link:hover {
+    color: #f39c12;
+}
+
+/* Hide unused decorative elements */
+.filler-box,
+.header__image {
+    display: none;
+}
+
+.--scrolled .filler-box {
+    display: none;
+    /* Hide filler box when scrolled */
+}
