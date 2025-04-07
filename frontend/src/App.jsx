@@ -4,10 +4,12 @@ import Header from './components/high/Header';
 import Footer from './components/high/Footer';
 import Home from './components/pages/Home';
 import Booking from "./components/pages/Booking"; // Adjust the import path as necessary
+import {SourceProvider} from './context/SourceContext'; // Import the context provider
 import './App.css'; // Import global styles
 
 const App = () => {
     return (
+        <SourceProvider> 
         <Router>
             <Header />
             <main style={{ padding: '20px' }}>
@@ -18,7 +20,9 @@ const App = () => {
             </main>
             <Footer />
         </Router>
+        </SourceProvider>
     );
 };
+
 
 export default App;
