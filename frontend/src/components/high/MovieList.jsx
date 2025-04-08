@@ -15,15 +15,15 @@ const MovieList = () => {
 
     // Update columns based on current window width
     const calculateColumns = () => {
-        const containerWidth = window.innerWidth; // In a real-life scenario, use a ref to measure actual grid width
-        const cols = Math.floor((containerWidth + gap) / (minWidth + gap)) || 1;
+        const containerWidth = window.innerWidth - 20 - 40; // In a real-life scenario, use a ref to measure actual grid width
+        const cols = Math.floor((containerWidth) / (minWidth + gap)) || 1;
         setColumns(cols);
     };
 
     // Fetch movies from backend
     const fetchMovies = async () => {
         try {
-            const response = await fetch(`${apiUrl}movies/short`);
+            const response = await fetch(`${apiUrl}movies/short?columns=${columns}&perColumn=5`);
             const data = await response.json();
             console.log('Fetched movies:', data);
             setMovies(data);
@@ -45,7 +45,7 @@ const MovieList = () => {
     useEffect(() => {
         console.log('MovieList mounted, fetching movies...');
         fetchMovies();
-    }, [apiUrl]);
+    }, [apiUrl, columns]);
 
     // Render MovieCards using the dynamically calculated column count.
     const renderMovieCards = () => {
