@@ -7,9 +7,25 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
+
+	if err := godotenv.Load("../.env"); err != nil {
+		fmt.Println("Error loading .env file:", err)
+		return
+	}
+
+	fmt.Println("Environment variables loaded successfully")
+
+	port := os.Getenv("APP_PORT")
+	if port == "" {
+		fmt.Println("PORT environment variable not set, using default port 8080")
+		port = "8080"
+	}
+
 	fs := http.FileServer(http.Dir("../frontend/build"))
 	assets := http.FileServer(http.Dir("../frontend/src/assets"))
 
