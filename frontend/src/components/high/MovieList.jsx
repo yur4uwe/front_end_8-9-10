@@ -23,7 +23,7 @@ const MovieList = () => {
     // Fetch movies from backend
     const fetchMovies = async () => {
         try {
-            const response = await fetch(`${apiUrl}movies/short`);
+            const response = await fetch(`${apiUrl}movies/short?columns=${columns}&perColumn=5`);
             const data = await response.json();
             console.log('Fetched movies:', data);
             setMovies(data);

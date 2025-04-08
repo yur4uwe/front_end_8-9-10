@@ -48,8 +48,8 @@ func ConnectTo(collName string) (*mongo.Client, *mongo.Collection, context.Cance
 	return client, collection, cancel, nil
 }
 
-func Get(collection *mongo.Collection, filter bson.D, ctx context.Context) (any, error) {
-	cursor, err := collection.Find(ctx, bson.D{})
+func Get(collection *mongo.Collection, filter bson.D, ctx context.Context, limit int) ([]map[string]interface{}, error) {
+	cursor, err := collection.Find(ctx, bson.D{}, options.Find().SetLimit(int64(limit)))
 	if err != nil {
 		return nil, err
 	}
