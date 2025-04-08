@@ -11,10 +11,13 @@ import (
 
 func main() {
 	fs := http.FileServer(http.Dir("../frontend/build"))
+	assets := http.FileServer(http.Dir("../frontend/src/assets"))
 
 	router := http.NewServeMux()
 	router.Handle("/", fs)
+	router.Handle("/assets/", http.StripPrefix("/assets/", assets))
 	router.HandleFunc("/api/hello", handlers.HelloWorldHandler)
+	router.HandleFunc("/api/v1/movies", handlers.GetMoviesHandler)
 
 	exit := make(chan os.Signal, 1)
 	signal.Notify(exit, os.Interrupt)

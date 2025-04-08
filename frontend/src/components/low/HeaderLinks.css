@@ -1,0 +1,45 @@
+.header-container {
+    padding: 0 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* When header is minimized, adjust layout */
+.header-minimized>.header-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Title styling */
+.header-title {
+    font-size: 2rem;
+    transition: font-size 0.3s ease;
+}
+
+/* Navigation container */
+.header-nav {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    padding-left: 50px;
+}
+
+/* When minimized, show horizontal navigation */
+.header-minimized>.header-container>.header-nav {
+    flex-direction: row;
+    padding-left: 0;
+}
+
+/* Navigation link styling */
+.header-link {
+    color: var(--light-bg-text);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.header-link:hover {
+    color: var(--link-hover);
+}

@@ -1,29 +1,53 @@
-/* Default header styles */
+/* Overall header container (the sticky outer container) */
 .header-sticky {
     position: fixed;
     top: 0;
     left: 0;
-    width: calc(100% - 40px);
-    background-color: var(--main-col);
+    width: calc(100% - 20px);
+    background-color: var(--component-bg);
     color: var(--light-bg-text);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease; /* Smooth height transition */
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
     z-index: 1000;
+    overflow: hidden;
+    margin: 10px;
+    border-radius: 5px;
 }
 
-/* Skeleton filler to maintain layout */
-.header-filler {
-    height: 300px; /* Matches the max height of the header */
+/* Gradient overlay on the picture element */
+.header-sticky picture {
+    position: relative;
+}
+
+.header-sticky picture::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    background: linear-gradient(to right,
+            #1e2c3a 0%,
+            rgba(0, 0, 0, 0.3) 50%,
+            rgba(0, 0, 0, 0.5) 100%);
+    pointer-events: none;
 }
 
-/* Scrolled header styles */
-.header-minimized > picture {
-    display: none; /* Hide the image when scrolled */
+/* Skeleton filler to maintain overall layout */
+.header-filler {
+    height: 320px;
+    /* Matches the max header height */
+    width: 100%;
+    background: transparent;
+}
+
+/* (Optional) If you have any shared modifiers, keep them here */
+.header-minimized>picture {
+    display: none;
+    /* Hide the image when header is minimized/scrolled */
 }
 
 /* Title styles */
@@ -33,7 +57,8 @@
 }
 
 .header-sticky.--scrolled .header-title {
-    font-size: 1.2rem; /* Smaller font size when scrolled */
+    font-size: 1.2rem;
+    /* Smaller font size when scrolled */
 }
 
 /* Navigation styles */
@@ -65,34 +90,14 @@
 }
 
 /* Header image */
-.header__image {
-    width: 100%;
-    height: 100%;
+.header-image {
+    display: block;
+    /* Show the image when scrolled */
     object-fit: cover;
-    /* Cover the entire header area */
-    opacity: 0.8;
-    /* Slightly transparent */
-    display: none;
-}
-
-/* Header content */
-.header__content {
-    position: sticky;
-    top: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    width: min-content;
-    height: 100%;
-}
-
-.--scrolled .header__content {
-    flex-direction: row;
-    justify-content: space-between;
+    object-position: bottom;
+    /* Ensure the image fits within the header */
     width: 100%;
-    /* Align items in a row when scrolled */
+    height: inherit;
 }
 
 /* Navigation links */
@@ -131,24 +136,33 @@
 }
 
 .header-container {
+    padding: 0 40px;
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.header-minimized > .header-container {
+.header-minimized>.header-container {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
 
-.header-container > .header-nav {
+.header-container>.header-nav {
     flex-direction: column;
     padding-left: 50px;
 }
 
-.header-minimized > .header-container > .header-nav {
+.header-minimized>.header-container>.header-nav {
     flex-direction: row;
     padding-left: 0px;
     /* Horizontal layout when scrolled */
+}
+
+picture {
+    display: block;
+    /* Ensure the image is displayed as a block element */
+    width: 100%;
+    height: 100%;
+    /* Full width and height of the header */
 }

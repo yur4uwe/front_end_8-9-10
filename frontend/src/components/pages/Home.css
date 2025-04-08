@@ -2,6 +2,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    height: 100vh;
+    color: var(--light-bg-text);
+}
+
+.home a {
+    color: var(--link-col);
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+    cursor: pointer;
 }

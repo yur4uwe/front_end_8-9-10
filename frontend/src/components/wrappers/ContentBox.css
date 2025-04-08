@@ -1,0 +1,10 @@
+.content-box {
+    width: calc(100% - 60px);
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: var(--component-bg);
+    color: var(--light-bg-text);
+    display: flex;
+    flex-direction: column;
+}

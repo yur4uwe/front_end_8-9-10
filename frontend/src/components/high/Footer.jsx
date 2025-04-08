@@ -1,8 +1,9 @@
 import React from 'react';
+import './Footer.css'; // Adjust the import path as necessary
 
 const Footer = () => {
     return (
-        <footer style={{ padding: '10px', backgroundColor: '#333', color: 'white', marginTop: '20px' }}>
+        <footer className='footer-container'>
             <p>&copy; 2025 CineSpot. All rights reserved.</p>
         </footer>
     );

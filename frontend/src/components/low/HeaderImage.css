@@ -1,0 +1,7 @@
+.header-image {
+    display: block;
+    object-fit: cover;
+    object-position: bottom;
+    width: 100%;
+    height: inherit;
+}

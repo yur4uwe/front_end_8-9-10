@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ContentBox from '../wrappers/ContentBox';
+import MovieList from '../high/MovieList';
 import './Home.css'; // Import the CSS file for styling
 
 const movies = [
@@ -11,17 +13,13 @@ const movies = [
 const Home = () => {
     return (
         <div className='home'>
-            <h1>Welcome to CineSpot</h1>
-            <h2>Now Showing</h2>
-            <ul>
-                {movies.map(movie => (
-                    <li key={movie.id}>
-                        <h3>{movie.title}</h3>
-                        <p>{movie.description}</p>
-                        <Link to={`/booking/${movie.id}`}>Book Tickets</Link>
-                    </li>
-                ))}
-            </ul>
+            <ContentBox>
+                <h1>Welcome to CineSpot</h1>
+                <h2>Now Showing</h2>
+            </ContentBox>
+            <ContentBox>
+                <MovieList />
+            </ContentBox>
         </div>
     );
 };

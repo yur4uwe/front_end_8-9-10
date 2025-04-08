@@ -1,12 +1,30 @@
 :root {
-  --main-col: #333;
-  --main-bg: #f4f4f4;
-  --link-hover: #f39c12;
-  --dark-bg-text: #2c3e50;
-  --light-bg-text: #ecf0f1;
+    --link-hover: #f39c12;
+    --dark-bg-text: #2c3e50;
+    --light-bg-text: #ecf0f1;
+    --main-col: #04053A;
+    --main-bg: #0D1327;
+    --component-bg: #1e2c3a;
+    --col-3: #080767;
+    --col-4: #11169C;
+    --col-5: #2935D6;
+    --col-6: #2145C4;
+    --link-col: #427C8D;
+    --button-col: #3772D2;
+    --col-9: #5998EC;
+    --button-hover-col: #5998EC;
+
+    --small-padding: 10px;
+    --medium-padding: 20px;
+    --large-padding: 30px;
+
+    --small-margin: 5px;
+    --medium-margin: 10px;
+    --large-margin: 20px;
 }
 
-.header-filler {
-  height: 300px;
-  background-color: var(--main-col);
+
+
+.main-content {
+    background-color: var(--main-bg);
 }
