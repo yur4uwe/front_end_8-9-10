@@ -1,0 +1,15 @@
+.button-wrapper {
+    padding: var(--small-padding) var(--medium-padding);
+    margin: var(--small-margin);
+    border-radius: 5px;
+    background-color: var(--component-bg);
+    color: var(--light-bg-text);
+    border: none;
+
+    transition: all 0.3s ease;
+}
+
+.button-wrapper:hover {
+    background-color: var(--button-hover-col);
+    color: var(--light-bg-text);
+}

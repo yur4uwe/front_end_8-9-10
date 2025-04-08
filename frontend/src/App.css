@@ -23,8 +23,20 @@
     --large-margin: 20px;
 }
 
-
-
 .main-content {
     background-color: var(--main-bg);
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.row {
+    flex-direction: row;
 }

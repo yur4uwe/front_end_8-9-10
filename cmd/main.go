@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"movie_theater/pkg/database"
 	"movie_theater/pkg/handlers"
 	"movie_theater/pkg/middleware"
 	"net/http"
@@ -11,13 +12,11 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func main() {
-
+func initEnv() {
 	if err := godotenv.Load("../.env"); err != nil {
 		fmt.Println("Error loading .env file:", err)
 		return
 	}
-
 	fmt.Println("Environment variables loaded successfully")
 
 	port := os.Getenv("APP_PORT")
@@ -25,6 +24,27 @@ func main() {
 		fmt.Println("PORT environment variable not set, using default port 8080")
 		port = "8080"
 	}
+	fmt.Println("App port set to:", port)
+
+	uri := os.Getenv("MONGODB_URI")
+	if uri == "" {
+		fmt.Println("MONGODB_URI environment variable not set")
+		return
+	}
+	database.SetURI(uri)
+	fmt.Println("MongoDB URI set successfully")
+
+	db_name := os.Getenv("MONGODB_DB_NAME")
+	if db_name == "" {
+		fmt.Println("MONGODB_DB_NAME environment variable not set")
+		return
+	}
+	database.SetDBName(db_name)
+	fmt.Println("MongoDB DB_NAME set successfully")
+}
+
+func main() {
+	initEnv()
 
 	fs := http.FileServer(http.Dir("../frontend/build"))
 	assets := http.FileServer(http.Dir("../frontend/src/assets"))
@@ -33,7 +53,7 @@ func main() {
 	router.Handle("/", fs)
 	router.Handle("/assets/", http.StripPrefix("/assets/", assets))
 	router.HandleFunc("/api/hello", handlers.HelloWorldHandler)
-	router.HandleFunc("/api/v1/movies", handlers.GetMoviesHandler)
+	router.HandleFunc("/api/v1/movies/short", handlers.GetMoviesHandler)
 
 	exit := make(chan os.Signal, 1)
 	signal.Notify(exit, os.Interrupt)

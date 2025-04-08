@@ -4,7 +4,4 @@
     border-radius: 5px;
     background-color: var(--component-bg);
     color: var(--light-bg-text);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }

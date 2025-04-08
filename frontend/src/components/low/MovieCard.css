@@ -1,13 +1,109 @@
 .movie-card {
     position: relative;
+    bottom: 0;
+
+    transition: bottom 0.3s ease;
 }
+
+
 
 .movie-details {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.7);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0) 100%);
     color: white;
     padding: 10px;
+    height: calc(100% - 20px);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: calc(100% - 20px);
+    z-index: 2;
+
+    transition: width 0.3s ease 0s, background 0.3s ease 0.3s;
+}
+
+.movie-details.last-child {
+    transition: width 0.3s ease 0s,
+        transform 0.1s ease 0s,
+        background 0.3s ease 0.3s;
+}
+
+.movie-card:hover {
+    bottom: 5px;
+    z-index: 1000;
+}
+
+.movie-poster {
+    z-index: 1;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 10px;
+}
+
+.rating-star {
+    aspect-ratio: 1;
+    height: 2ch;
+    margin-right: 5px;
+}
+
+.movie-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.movie-card:hover .movie-details:not(.last-child) {
+    width: 200%;
+    background: var(--main-bg);
+    z-index: 1;
+
+    transition: width 0.3s ease 0.3s, background 0.3s ease 0s;
+}
+
+.movie-card:hover .movie-details.last-child {
+    width: 200%;
+    background: var(--main-bg);
+    z-index: 1;
+    transform: translateX(calc(-50% - 10px));
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    transition: width 0.3s ease 0.1s,
+        transform 0.1s ease 0.1s,
+        background 0.3s ease 0s;
+}
+
+.movie-card:hover .movie-details.last-child .movie-buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.movie-card:hover .movie-poster {
+    z-index: 2;
+}
+
+.movie-buttons {
+    display: none;
+}
+
+.movie-card:hover .movie-details:not(.last-child) .movie-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.movie-card:hover .movie-title {
+    max-width: 50%;
 }
