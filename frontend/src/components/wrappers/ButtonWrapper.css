@@ -3,7 +3,7 @@
     margin: var(--small-margin);
     border-radius: 5px;
     background-color: var(--dark-bg-text);
-    color: var(--light-bg-text);
+    color: var(--link-col);
     border: none;
     text-decoration: none;
 

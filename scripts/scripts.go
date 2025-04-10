@@ -67,6 +67,7 @@ func getMovies(collection *mongo.Collection) {
 }
 
 func updateMovies(collection *mongo.Collection) {
+	// Movies data provided; only a subset of fields is given here.
 	movies := []map[string]string{
 		{
 			"title":       "Inception",
@@ -140,18 +141,35 @@ func updateMovies(collection *mongo.Collection) {
 		},
 	}
 
+	// Default values for fields missing in the movie map.
+	defaultData := map[string]interface{}{
+		"overview":   "No overview available.",
+		"director":   "Director unknown",
+		"cast":       "Cast not listed",
+		"trailerUrl": "https://example.com/default-trailer",
+		"watchUrl":   "https://example.com/default-watch",
+		"reviews":    []string{"Review pending"},
+		"duration":   "120 minutes",
+		"language":   "English",
+	}
+
 	for _, movie := range movies {
 		// Create filter based on title
 		filter := bson.D{{Key: "title", Value: movie["title"]}}
 
-		// Build update doc dynamically excluding the title field
+		// Build update document: start with existing movie fields
 		updateFields := bson.D{}
 		for key, value := range movie {
-			if key == "title" {
-				continue
-			}
 			updateFields = append(updateFields, bson.E{Key: key, Value: value})
 		}
+		// Then, for each default field not already set in the movie map, add it.
+		for key, value := range defaultData {
+			if _, exists := movie[key]; !exists {
+				updateFields = append(updateFields, bson.E{Key: key, Value: value})
+			}
+		}
+
+		// Use $set to rewrite all fields anew
 		update := bson.D{{Key: "$set", Value: updateFields}}
 
 		updateResult, err := collection.UpdateOne(nil, filter, update)

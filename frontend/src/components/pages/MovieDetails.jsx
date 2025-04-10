@@ -52,7 +52,7 @@ const MovieDetails = () => {
             <h1>{movie.title}</h1>
             <div className='movie-details'>
                 <div className='movie-details-image'>
-                    <img src={movie.imageUrl} alt={movie.title} className='movie-poster' />
+                    <img src={movie.imageUrl} alt={movie.title} className='movie-details-poster' />
                 </div>
 
                 <div className='movie-details-content'>

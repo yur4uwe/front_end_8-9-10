@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"movie_theater/pkg/database"
+	"movie_theater/pkg/models"
 	"net/http"
 	"net/url"
 	"strconv"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func parseNumberQueryParam(queries url.Values, param string) (int, error) {
@@ -50,16 +52,15 @@ func GetMoviesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client, collection, cancel, err := database.ConnectTo("movies")
+	movie_repo, cleanup, err := models.MovieRepo()
 	if err != nil {
-		fmt.Println("Failed to connect to database:", err)
-		http.Error(w, "Failed to connect to database", http.StatusInternalServerError)
+		fmt.Println("Error getting movie repository:", err)
+		http.Error(w, "Error getting movie repository", http.StatusInternalServerError)
 		return
 	}
-	defer cancel()
-	defer client.Disconnect(ctx)
+	defer cleanup()
 
-	movies, err := database.Get(collection, bson.D{}, ctx, columns*per_column)
+	movies, err := movie_repo.Find(ctx, bson.D{}, options.Find().SetLimit(int64(columns*per_column)))
 	if err != nil {
 		fmt.Println("Failed to get movies:", err)
 		http.Error(w, "Failed to get movies", http.StatusInternalServerError)
@@ -72,7 +73,6 @@ func GetMoviesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetMovieDetailsHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("GetMovieDetailsHandler called")
 	ctx := r.Context()
 	queries := r.URL.Query()
 
@@ -82,16 +82,14 @@ func GetMovieDetailsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "missing 'movieName' query parameter", http.StatusBadRequest)
 		return
 	}
-	fmt.Println("movie_id:", movie_id)
 
-	client, collection, cancel, err := database.ConnectTo("movies")
+	movie_repo, cleanup, err := models.MovieRepo()
 	if err != nil {
-		fmt.Println("Failed to connect to database:", err)
-		http.Error(w, "Failed to connect to database", http.StatusInternalServerError)
+		fmt.Println("Error getting movie repository:", err)
+		http.Error(w, "Error getting movie repository", http.StatusInternalServerError)
 		return
 	}
-	defer cancel()
-	defer client.Disconnect(ctx)
+	defer cleanup()
 
 	object_id, err := database.ObjectId(movie_id)
 	if err != nil {
@@ -100,7 +98,7 @@ func GetMovieDetailsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	movie, err := database.GetOne(collection, bson.D{{Key: "_id", Value: object_id}}, ctx)
+	movie, err := movie_repo.FindOne(ctx, bson.D{{Key: "_id", Value: object_id}})
 	if err != nil {
 		fmt.Println("Failed to get movie details:", err)
 		http.Error(w, "Failed to get movie details", http.StatusInternalServerError)
@@ -125,16 +123,15 @@ func GetMoviesScreeningsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("movie_id:", movie_id)
 
-	client, collection, cancel, err := database.ConnectTo("screenings")
+	screening_repo, cleanup, err := models.ScreeningRepo()
 	if err != nil {
-		fmt.Println("Failed to connect to database:", err)
-		http.Error(w, "Failed to connect to database", http.StatusInternalServerError)
+		fmt.Println("Error getting screening repository:", err)
+		http.Error(w, "Error getting screening repository", http.StatusInternalServerError)
 		return
 	}
-	defer cancel()
-	defer client.Disconnect(ctx)
+	defer cleanup()
 
-	screenings, err := database.Get(collection, bson.D{{Key: "movie_id", Value: movie_id}}, ctx, 1000)
+	screenings, err := screening_repo.Find(ctx, bson.D{{Key: "movieId", Value: movie_id}})
 	if err != nil {
 		fmt.Println("Failed to get movie screenings:", err)
 		http.Error(w, "Failed to get movie screenings", http.StatusInternalServerError)

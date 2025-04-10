@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { SourceContext } from '../../context/SourceContext'; // Assuming you have a context for the image base URL
 import './MovieCard.css'; // Assuming you have a CSS file for styling
 import ButtonWrapper from '../wrappers/ButtonWrapper';
+import Clickable from '../wrappers/Clickable';
 
 /**
  * @typedef {Object} MovieInfo
@@ -37,7 +38,7 @@ const MovieCard = ({ movie, isLastChild }) => {
     const { imageBaseUrl } = useContext(SourceContext); // Assuming you have a context for the image base URL
 
     return (
-        <div className={`movie-card ${isLastChild ? 'last-child' : ''} flex-center column`}>
+        <Clickable link={`/movie/${movie._id}`} className={`movie-card ${isLastChild ? 'last-child' : ''} flex-center column`}>
             <img src={movie.imageUrl} alt={movie.title} className='movie-poster' />
             <div className={`movie-card-details ${isLastChild ? 'last-child' : ''}`}>
                 <h3 className='movie-title'>{movie.title}</h3>
@@ -57,7 +58,7 @@ const MovieCard = ({ movie, isLastChild }) => {
                     <ButtonWrapper linkTo={`/movie/${movie._id}/book`} >Book</ButtonWrapper>
                 </div>
             </div>
-        </div>
+        </Clickable>
     );
 };
 

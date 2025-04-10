@@ -4,11 +4,3 @@
     align-items: center;
     color: var(--light-bg-text);
 }
-
-.home a {
-    color: var(--link-col);
-    text-decoration: none;
-    font-size: 1.2rem;
-    transition: color 0.3s ease;
-    cursor: pointer;
-}
