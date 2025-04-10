@@ -1,0 +1,37 @@
+.movie-poster {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.movie-details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.movie-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.movie-details-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: calc(100% - 40px);
+    padding: 20px;
+}
+
+.movie-details-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}

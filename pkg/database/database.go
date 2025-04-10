@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -69,4 +70,21 @@ func Get(collection *mongo.Collection, filter bson.D, ctx context.Context, limit
 	}
 
 	return documents, nil
+}
+
+func GetOne(collection *mongo.Collection, filter bson.D, ctx context.Context) (map[string]interface{}, error) {
+	var result map[string]interface{}
+	err := collection.FindOne(ctx, filter).Decode(&result)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+func GetById(collection *mongo.Collection, id string, ctx context.Context) (map[string]interface{}, error) {
+	filter := bson.D{{Key: "_id", Value: id}}
+	return GetOne(collection, filter, ctx)
+}
+func ObjectId(id string) (primitive.ObjectID, error) {
+	return primitive.ObjectIDFromHex(id)
 }

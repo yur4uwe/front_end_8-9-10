@@ -2,9 +2,10 @@
     padding: var(--small-padding) var(--medium-padding);
     margin: var(--small-margin);
     border-radius: 5px;
-    background-color: var(--component-bg);
+    background-color: var(--dark-bg-text);
     color: var(--light-bg-text);
     border: none;
+    text-decoration: none;
 
     transition: all 0.3s ease;
 }

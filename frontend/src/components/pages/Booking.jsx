@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-//import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const Booking = () => {
-    //const { movieId } = useParams();
+    const { movieId } = useParams();
     const [seats, setSeats] = useState(Array(30).fill(false)); // 30 seats, all initially free
 
     const toggleSeat = (index) => {

@@ -39,16 +39,22 @@ const MovieCard = ({ movie, isLastChild }) => {
     return (
         <div className={`movie-card ${isLastChild ? 'last-child' : ''} flex-center column`}>
             <img src={movie.imageUrl} alt={movie.title} className='movie-poster' />
-            <div className={`movie-details ${isLastChild ? 'last-child' : ''}`}>
+            <div className={`movie-card-details ${isLastChild ? 'last-child' : ''}`}>
                 <h3 className='movie-title'>{movie.title}</h3>
-                <p className='movie-release-date'>{movie.releaseDate}</p>
+                <p className='movie-genre hidden lesser-margin'>Genre: {movie.genre}</p>
+                <p className='movie-director hidden lesser-margin'>Director: {movie.director}</p>
+                <p className='last-screening hidden lesser-margin'>Last Screening: {movie.last_screening}</p>
+                <p className='movie-release-date'>
+                    <span className='hidden'>Release Date:</span>
+                    <span className='inline'>{movie.releaseDate.split("-").reverse().join(".")}</span>
+                </p>
                 <div className='movie-rating flex-center row'>
                     <img src={imageBaseUrl + "rating-star.png"} alt="R:" className='rating-star' />
                     {movie.rating}
                 </div>
-                <div className="movie-buttons">
-                    <ButtonWrapper text="More" />
-                    <ButtonWrapper text="Book" />
+                <div className="movie-buttons hidden">
+                    <ButtonWrapper linkTo={`/movie/${movie._id}`}>More</ButtonWrapper>
+                    <ButtonWrapper linkTo={`/movie/${movie._id}/book`} >Book</ButtonWrapper>
                 </div>
             </div>
         </div>

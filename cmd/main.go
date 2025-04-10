@@ -54,6 +54,8 @@ func main() {
 	router.Handle("/assets/", http.StripPrefix("/assets/", assets))
 	router.HandleFunc("/api/hello", handlers.HelloWorldHandler)
 	router.HandleFunc("/api/v1/movies/short", handlers.GetMoviesHandler)
+	router.HandleFunc("/api/v1/movie", handlers.GetMovieDetailsHandler)
+	router.HandleFunc("/api/v1/movie/screenings", handlers.GetMoviesScreeningsHandler)
 
 	exit := make(chan os.Signal, 1)
 	signal.Notify(exit, os.Interrupt)
