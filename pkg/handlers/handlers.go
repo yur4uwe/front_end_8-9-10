@@ -1,10 +1,10 @@
 package handlers
 
 import (
+	"cine-spot/pkg/database"
+	"cine-spot/pkg/models"
 	"encoding/json"
 	"fmt"
-	"movie_theater/pkg/database"
-	"movie_theater/pkg/models"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -143,4 +143,35 @@ func GetMoviesScreeningsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(screenings)
+}
+
+func GetMovieComments(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	queries := r.URL.Query()
+
+	movie_id := queries.Get("movieId")
+	if movie_id == "" {
+		fmt.Println("Error: missing 'movieName' query parameter")
+		http.Error(w, "missing 'movieName' query parameter", http.StatusBadRequest)
+		return
+	}
+
+	review_repo, cleanup, err := models.ReviewRepo()
+	if err != nil {
+		fmt.Println("Error getting review repository:", err)
+		http.Error(w, "Error getting review repository", http.StatusInternalServerError)
+		return
+	}
+	defer cleanup()
+
+	reviews, err := review_repo.Find(ctx, bson.D{{Key: "movieId", Value: movie_id}})
+	if err != nil {
+		fmt.Println("Failed to get movie reviews:", err)
+		http.Error(w, "Failed to get movie reviews", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(reviews)
 }

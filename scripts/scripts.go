@@ -1,8 +1,8 @@
 package main
 
 import (
+	"cine-spot/pkg/database"
 	"fmt"
-	"movie_theater/pkg/database"
 	"os"
 
 	"github.com/joho/godotenv"

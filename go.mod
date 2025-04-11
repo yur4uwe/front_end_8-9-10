@@ -1,4 +1,4 @@
-module movie_theater
+module cine-spot
 
 go 1.24.0
 

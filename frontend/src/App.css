@@ -2,6 +2,7 @@
     --link-hover: #f39c12;
     --dark-bg-text: #2c3e50;
     --light-bg-text: #ecf0f1;
+    --ghostly-text: #bdc3c7;
     --main-col: #04053A;
     --main-bg: #0D1327;
     --component-bg: #1e2c3a;
@@ -25,6 +26,8 @@
 
 .main-content {
     background-color: var(--main-bg);
+    display: flex;
+    flex-direction: column;
 }
 
 .flex-center {

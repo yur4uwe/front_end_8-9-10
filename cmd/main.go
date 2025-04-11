@@ -1,10 +1,10 @@
 package main
 
 import (
+	"cine-spot/pkg/database"
+	"cine-spot/pkg/handlers"
+	"cine-spot/pkg/middleware"
 	"fmt"
-	"movie_theater/pkg/database"
-	"movie_theater/pkg/handlers"
-	"movie_theater/pkg/middleware"
 	"net/http"
 	"os"
 	"os/signal"

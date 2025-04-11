@@ -1,6 +1,8 @@
 package models
 
-import "movie_theater/pkg/repository"
+import (
+	"cine-spot/pkg/repository"
+)
 
 // Seat represents seat types and prices in a screening per seat.
 type Seat struct {

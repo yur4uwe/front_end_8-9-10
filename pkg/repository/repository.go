@@ -1,9 +1,9 @@
 package repository
 
 import (
+	"cine-spot/pkg/database"
 	"context"
 	"errors"
-	"movie_theater/pkg/database"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

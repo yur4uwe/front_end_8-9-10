@@ -1,77 +1,58 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import { SourceContext } from '../../context/SourceContext'; // Assuming you have a context for the API URL
+import { SourceContext } from '../../context/SourceContext';
 import Loader from '../low/Loader';
 import ContentBox from '../wrappers/ContentBox';
-import './MovieDetails.css'; // Assuming you have a CSS file for styling
-import ButtonWrapper from '../wrappers/ButtonWrapper';
+import MovieDetailsInfo from '../high/MovieDetailsInfo';
+import MovieComments from '../high/MovieComments';
+import './MovieDetails.css';
 
 const MovieDetails = () => {
-    const { apiUrl, imageBaseUrl } = useContext(SourceContext); // Assuming you have a context for the API URL
-    const movieId = useParams().id; // Get the movie name from the URL parameters
+    const { apiUrl } = useContext(SourceContext);
+    const { id: movieId } = useParams();
     /**
-     * @type {number | null} movie - The movie object containing details about the movie.
+     * State to hold movie details.
+     * @type {[import('../low/MovieCard').MovieInfo, function]}
      */
-    const [movie, setMovie] = useState(null); // State to hold movie details
+    const [movie, setMovie] = useState(null);
 
-    const fetchMovieScreenings = async (movieId) => {
+    // Memoize fetchMovieScreenings.
+    const fetchMovieScreenings = useCallback(async (id) => {
         try {
-            const response = await fetch(`${apiUrl}/movie/screenings?movieId=${movieId}`); // Fetch movie screenings from backend
+            const response = await fetch(`${apiUrl}/movie/screenings?movieId=${id}`);
             const data = await response.json();
-            console.log('Fetched movie screenings:', data);
-            setMovie((prevMovie) => ({ ...prevMovie, screenings: data })); // Update the movie state with screenings
+            setMovie((prevMovie) => ({ ...prevMovie, screenings: data }));
         } catch (error) {
             console.error('Error fetching movie screenings:', error);
         }
-    };
+    }, [apiUrl]);
 
-    const fetchMovieDetails = async () => {
+    // Memoize fetchMovieDetails and include fetchMovieScreenings in its dependencies.
+    const fetchMovieDetails = useCallback(async () => {
         try {
-            const response = await fetch(`${apiUrl}/movie?movieId=${movieId}`); // Fetch movie details from backend
+            const response = await fetch(`${apiUrl}/movie?movieId=${movieId}`);
             const data = await response.json();
-
-            fetchMovieScreenings(movieId); // Fetch movie screenings after fetching movie details
-
-            console.log('Fetched movie details:', data);
-            setMovie(data)
+            setMovie(data);
         } catch (error) {
             console.error('Error fetching movie details:', error);
         }
-    };
+    }, [apiUrl, movieId, fetchMovieScreenings]);
 
-    // Fetch movie details when the component mounts
+    // Call fetchMovieDetails whenever dependencies change.
     useEffect(() => {
-        console.log('MovieDetails mounted, fetching movie details...');
+        console.log('MovieDetails mounted or dependencies changed, fetching movie details...');
         fetchMovieDetails();
-    }, []);
+        fetchMovieScreenings(movieId);
+    }, [fetchMovieDetails, fetchMovieScreenings, movieId]);
 
-    if (!movie) return <Loader description='Loading Movie information...'></Loader>; // Show loading state if movie details are not yet fetched
+    if (!movie) return <Loader description='Loading Movie information...' />;
 
     return (
-        <ContentBox className='movie-details-container'>
-            <h1>{movie.title}</h1>
-            <div className='movie-details'>
-                <div className='movie-details-image'>
-                    <img src={movie.imageUrl} alt={movie.title} className='movie-details-poster' />
-                </div>
-
-                <div className='movie-details-content'>
-                    <p><strong>Release Date:</strong> {movie.releaseDate.split("-").reverse().join(".")}</p>
-                    <p><strong>Genre:</strong> {movie.genre}</p>
-                    <p><strong>Director:</strong> {movie.director}</p>
-                    <p><strong>Cast:</strong> {movie.cast}</p>
-                    <p><strong>Overview:</strong> {movie.overview}</p>
-                    <p><strong>Rating:</strong> <img src={imageBaseUrl + "rating-star.png"} alt="R:" className='rating-star' /> {movie.rating}</p>
-                    <p><strong>Duration:</strong> {movie.duration}</p>
-                    <p><strong>Language:</strong> {movie.language}</p>
-                    <div className="movie-details-buttons">
-                        <ButtonWrapper linkTo={movie.trailerUrl} >Watch Trailer</ButtonWrapper>
-                        <ButtonWrapper linkTo={movie.watchUrl} >Watch Movie</ButtonWrapper>
-                        <ButtonWrapper linkTo={`/movie/${movieId}/book`} >Book Tickets</ButtonWrapper>
-                    </div>
-                </div>
-            </div>
-        </ContentBox>
+        <div className='movie-details-container'>
+            <ContentBox><h1 className='flex-center'>{movie.title}</h1></ContentBox>
+            <MovieDetailsInfo movie={movie} />
+            <MovieComments comments={movie.reviews} />
+        </div>
     );
 };
 

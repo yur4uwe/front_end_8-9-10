@@ -1,7 +1,7 @@
 package models
 
 import (
-	"movie_theater/pkg/repository"
+	"cine-spot/pkg/repository"
 )
 
 // Movie represents the structure for a movie document.
@@ -17,7 +17,7 @@ type Movie struct {
 	Cast        string   `bson:"cast" json:"cast"`
 	TrailerURL  string   `bson:"trailerUrl" json:"trailerUrl"`
 	WatchURL    string   `bson:"watchUrl" json:"watchUrl"`
-	Reviews     []string `bson:"reviews" json:"reviews"`
+	Reviews     []Review `bson:"reviews" json:"reviews"`
 	Duration    string   `bson:"duration" json:"duration"`
 	Language    string   `bson:"language" json:"language"`
 }
@@ -34,7 +34,7 @@ func Default() Movie {
 		Cast:        "Default Cast",
 		TrailerURL:  "https://example.com/default_trailer.mp4",
 		WatchURL:    "https://example.com/default_watch.mp4",
-		Reviews:     []string{"No reviews yet."},
+		Reviews:     []Review{DefaultReview()},
 		Duration:    "2h 0m",
 		Language:    "English",
 	}
