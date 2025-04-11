@@ -56,6 +56,8 @@ func main() {
 	router.HandleFunc("/api/v1/movies/short", handlers.GetMoviesHandler)
 	router.HandleFunc("/api/v1/movie", handlers.GetMovieDetailsHandler)
 	router.HandleFunc("/api/v1/movie/screenings", handlers.GetMoviesScreeningsHandler)
+	router.HandleFunc("/api/v1/reviews", handlers.GetMovieReviewsHandler)
+	router.HandleFunc("/api/v1/movie/book", handlers.GetScreeningSeatingPlanHandler)
 
 	exit := make(chan os.Signal, 1)
 	signal.Notify(exit, os.Interrupt)

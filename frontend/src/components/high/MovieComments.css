@@ -1,0 +1,56 @@
+.movie-comment {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.75);
+    border: 1px solid var(--main-bg);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.movie-comment-text {
+    color: var(--main-text);
+
+    border: 1px solid var(--main-bg);
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.movie-comment-info {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    width: min-content;
+}
+
+.movie-comment-info:first-child {
+    margin-right: 10px;
+}
+
+.movie-comment p {
+    margin-top: 5px;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.user-icon {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.movie-comment-title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.movie-comments {
+    font-size: 1.4rem;
+}

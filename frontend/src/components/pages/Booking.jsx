@@ -1,42 +1,47 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { SourceContext } from '../../context/SourceContext'; // Assuming you have a context for the API URL
+import Loader from '../low/Loader';
 
 const Booking = () => {
-    const { movieId } = useParams();
-    const [seats, setSeats] = useState(Array(30).fill(false)); // 30 seats, all initially free
+    const { apiUrl } = useContext(SourceContext); // Assuming you have a context for the API URL
+    const { id: movieId } = useParams();
+    const [screenings, setScreenings] = useState([]);
 
-    const toggleSeat = (index) => {
-        const updatedSeats = [...seats];
-        updatedSeats[index] = !updatedSeats[index];
-        setSeats(updatedSeats);
-    };
+    const fetchMovieScreenings = useCallback(async () => {
+        try {
+            const response = await fetch(`${apiUrl}/movie/screenings?movieId=${movieId}`);
+            const data = await response.json();
+            setScreenings(data);
+        } catch (error) {
+            console.error('Error fetching movie screenings:', error);
+        }
+    }, [movieId]);
 
-    const handleBooking = () => {
-        const bookedSeats = seats.map((seat, index) => seat ? index + 1 : null).filter(Boolean);
-        alert(`You have booked seats: ${bookedSeats.join(", ")}`);
+    useEffect(() => {
+        console.log('Booking component mounted or dependencies changed, fetching screenings...');
+        fetchMovieScreenings();
+    }, [fetchMovieScreenings]);
+
+    if (!screenings || !screenings.length) return <Loader description='Loading screenings...' />;
+
+    const formattedScreenings = () => {
+        return screenings.map((screening, index) => (
+            <div key={index} className='screening'>
+                <h2>{screening.date}</h2>
+                <p>Time: {screening.time}</p>
+                <p>Available Seats: {screening.availableSeats}</p>
+                <button className='book-button'>Book Now</button>
+            </div>
+        ));
     };
 
     return (
-        <div>
-            <h1>Book Your Seats</h1>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '10px' }}>
-                {seats.map((isTaken, index) => (
-                    <button
-                        key={index}
-                        style={{
-                            backgroundColor: isTaken ? 'red' : 'green',
-                            color: 'white',
-                            padding: '10px',
-                        }}
-                        onClick={() => toggleSeat(index)}
-                    >
-                        {index + 1}
-                    </button>
-                ))}
+        <div className='booking-container'>
+            <h1>Book Tickets for Movie ID: {movieId}</h1>
+            <div className='screenings-list'>
+                {formattedScreenings()}
             </div>
-            <button onClick={handleBooking} style={{ marginTop: '20px', padding: '10px 20px' }}>
-                Confirm Booking
-            </button>
         </div>
     );
 };

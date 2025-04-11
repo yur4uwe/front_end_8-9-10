@@ -16,17 +16,6 @@ const MovieDetails = () => {
      */
     const [movie, setMovie] = useState(null);
 
-    // Memoize fetchMovieScreenings.
-    const fetchMovieScreenings = useCallback(async (id) => {
-        try {
-            const response = await fetch(`${apiUrl}/movie/screenings?movieId=${id}`);
-            const data = await response.json();
-            setMovie((prevMovie) => ({ ...prevMovie, screenings: data }));
-        } catch (error) {
-            console.error('Error fetching movie screenings:', error);
-        }
-    }, [apiUrl]);
-
     // Memoize fetchMovieDetails and include fetchMovieScreenings in its dependencies.
     const fetchMovieDetails = useCallback(async () => {
         try {
@@ -36,22 +25,21 @@ const MovieDetails = () => {
         } catch (error) {
             console.error('Error fetching movie details:', error);
         }
-    }, [apiUrl, movieId, fetchMovieScreenings]);
+    }, [apiUrl, movieId]);
 
     // Call fetchMovieDetails whenever dependencies change.
     useEffect(() => {
         console.log('MovieDetails mounted or dependencies changed, fetching movie details...');
         fetchMovieDetails();
-        fetchMovieScreenings(movieId);
-    }, [fetchMovieDetails, fetchMovieScreenings, movieId]);
+    }, [fetchMovieDetails]);
 
     if (!movie) return <Loader description='Loading Movie information...' />;
 
     return (
         <div className='movie-details-container'>
-            <ContentBox><h1 className='flex-center'>{movie.title}</h1></ContentBox>
+            <ContentBox><h1 className='flex-center' style={{ fontSize: '3rem' }}>{movie.title}</h1></ContentBox>
             <MovieDetailsInfo movie={movie} />
-            <MovieComments comments={movie.reviews} />
+            <MovieComments movieId={movie._id} />
         </div>
     );
 };

@@ -55,7 +55,7 @@ const MovieCard = ({ movie, isLastChild }) => {
                 </div>
                 <div className="movie-buttons hidden">
                     <ButtonWrapper linkTo={`/movie/${movie._id}`}>More</ButtonWrapper>
-                    <ButtonWrapper linkTo={`/movie/${movie._id}/book`} >Book</ButtonWrapper>
+                    <ButtonWrapper linkTo={`/book/${movie._id}`} >Book</ButtonWrapper>
                 </div>
             </div>
         </Clickable>

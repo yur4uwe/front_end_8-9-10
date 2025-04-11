@@ -1,9 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import './ButtonWrapper.css'; // Assuming you have a CSS file for styling
-import { Link } from 'react-router-dom/cjs/react-router-dom';
 
 const ButtonWrapper = ({ children, linkTo }) => {
-    const baseUrl = 'http://localhost:3000'; // Replace with your actual base URL
     let redirectTo = '';
 
     if (!linkTo) {
@@ -11,17 +10,17 @@ const ButtonWrapper = ({ children, linkTo }) => {
     }
 
     if (linkTo.startsWith('http')) {
-        redirectTo = linkTo;
-    } else if (linkTo.startsWith('/')) {
-        redirectTo = baseUrl + linkTo;
-    } else {
-        redirectTo = baseUrl + '/' + linkTo;
+        return (
+            <a href={redirectTo} className='button-wrapper flex-center'>
+                {children}
+            </a>
+        );
     }
 
     return (
-        <a href={redirectTo} className='button-wrapper flex-center'>
+        <Link to={linkTo} className='button-wrapper flex-center'>
             {children}
-        </a>
+        </Link>
     );
 };
 

@@ -17,7 +17,7 @@ const App = () => {
                 <main className='main-content'>
                     <Switch>
                         <Route exact path="/" component={Home} />
-                        <Route path="moovie/:id/book/" component={Booking} />
+                        <Route path="/book/:id/" component={Booking} />
                         <Route path="/movie/:id" component={MovieDetails} /> {/* Adjust the path as necessary */}
                         <Route path="*" component={NotFound} />
                     </Switch>
