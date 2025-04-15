@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import MovieCard from '../low/MovieCard';
 import { SourceContext } from '../../context/SourceContext';
 import Loader from '../low/Loader';
@@ -30,7 +30,7 @@ const MovieList = () => {
     const { apiUrl } = useContext(SourceContext);
 
     // Fetch movies from backend
-    const fetchMovies = async () => {
+    const fetchMovies = useCallback(async () => {
         try {
             const response = await fetch(`${apiUrl}/movies/short?columns=${columns}&perColumn=5`);
             const data = await response.json();
@@ -41,20 +41,20 @@ const MovieList = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [apiUrl, columns]);
 
     // Set up resize listener to recalc columns
     useEffect(() => {
         setColumns(calculateColumns()); // initial calculation
         window.addEventListener('resize', () => setColumns(calculateColumns));
         return () => window.removeEventListener('resize', () => setColumns(calculateColumns));
-    }, []);
+    }, [fetchMovies]);
 
     // Fetch movies on mount
     useEffect(() => {
         console.log('MovieList mounted, fetching movies...');
         fetchMovies();
-    }, [apiUrl, columns]);
+    }, [apiUrl, columns, fetchMovies]);
 
     // Render MovieCards using the dynamically calculated column count.
     const renderMovieCards = () => {

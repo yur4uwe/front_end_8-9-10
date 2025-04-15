@@ -186,6 +186,43 @@ func updateMovies(collection *mongo.Collection) {
 	}
 }
 
+func putSeatsIntoScreenings() {
+	movieRepo, movieCleanup, err := models.MovieRepo()
+	if err != nil {
+		fmt.Println("Error getting movie repository:", err)
+		return
+	}
+	defer movieCleanup()
+
+	screeningRepo, screeningCleanup, err := models.ScreeningRepo()
+	if err != nil {
+		fmt.Println("Error getting screening repository:", err)
+		return
+	}
+	defer screeningCleanup()
+
+	movies, err := movieRepo.Find(context.Background(), bson.D{})
+	if err != nil {
+		fmt.Println("Error fetching movies:", err)
+		return
+	}
+
+	for _, movie := range movies {
+		num := rand.Intn(5)
+
+		for i := 0; i < num; i++ {
+			screening := models.DefaultScreening()
+			screening.MovieID = movie.ID
+
+			screening.Time = time.Now().Add(time.Duration(rand.Intn(1000)) * time.Hour).Format(time.RFC3339)
+
+			screeningRepo.InsertOne(context.Background(), screening)
+			fmt.Println("Inserted screening for movie:", movie.Title, "at", screening.Time)
+		}
+	}
+
+}
+
 func ensureMovieReviews() {
 	// Get the movie and review repositories.
 	movieRepo, movieCleanup, err := models.MovieRepo()
@@ -292,6 +329,5 @@ func main() {
 	database.SetURI(uri)
 	database.SetDBName(db_name)
 
-	// Call the new function to ensure each of the 10 films has at least 3 reviews.
-	ensureMovieReviews()
+	putSeatsIntoScreenings()
 }

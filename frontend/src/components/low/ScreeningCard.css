@@ -1,0 +1,10 @@
+.book-button-cont-box {
+    color: var(--light-bg-text);
+    font-size: 1.2em;
+    white-space: nowrap;
+}
+
+.book-button-cont-box>p {
+    margin: 5px 0;
+    padding: 0;
+}

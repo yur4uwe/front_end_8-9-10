@@ -1,0 +1,39 @@
+.screening-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-left: 2px solid var(--main-bg);
+    width: min-content;
+    min-width: 200px;
+    padding: 20px;
+    padding-top: 0;
+}
+
+
+.day-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--main-bg-text);
+    text-align: center;
+    margin: 10px;
+    border: 1px solid var(--main-bg);
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--col-9);
+    color: #333;
+}
+
+.screenings-list {
+    width: min-content;
+    border-right: 2px solid var(--main-bg);
+    display: flex;
+    flex-direction: row;
+}
+
+.day-screenings {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(20px, 1fr));
+    gap: 0;
+    width: 100%;
+}

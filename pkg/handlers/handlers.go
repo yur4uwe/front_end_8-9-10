@@ -123,6 +123,28 @@ func GetMoviesScreeningsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("movie_id:", movie_id)
 
+	movieRepo, movieCleanup, err := models.MovieRepo()
+	if err != nil {
+		fmt.Println("Error getting movie repository:", err)
+		http.Error(w, "Error getting movie repository", http.StatusInternalServerError)
+		return
+	}
+	defer movieCleanup()
+
+	object_id, err := database.ObjectId(movie_id)
+	if err != nil {
+		fmt.Println("Error converting movie_id to ObjectID:", err)
+		http.Error(w, "Invalid movie ID", http.StatusBadRequest)
+		return
+	}
+
+	movie, err := movieRepo.FindOne(ctx, bson.D{{Key: "_id", Value: object_id}})
+	if err != nil {
+		fmt.Println("Failed to get movie details:", err)
+		http.Error(w, "Failed to get movie details", http.StatusInternalServerError)
+		return
+	}
+
 	screening_repo, cleanup, err := models.ScreeningRepo()
 	if err != nil {
 		fmt.Println("Error getting screening repository:", err)
@@ -138,11 +160,12 @@ func GetMoviesScreeningsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("screenings:", screenings)
-
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(screenings)
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"movie":      movie,
+		"screenings": screenings,
+	})
 }
 
 func GetMovieReviewsHandler(w http.ResponseWriter, r *http.Request) {

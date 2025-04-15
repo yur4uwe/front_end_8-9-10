@@ -1,26 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import './ButtonWrapper.css'; // Assuming you have a CSS file for styling
+import { useHistory } from 'react-router-dom';
+import './ButtonWrapper.css';
 
-const ButtonWrapper = ({ children, linkTo }) => {
-    let redirectTo = '';
+const ButtonWrapper = ({ children, linkTo, className }) => {
+    const history = useHistory();
 
-    if (!linkTo) {
-        return <span className='button-wrapper'>{children}</span>;
-    }
-
-    if (linkTo.startsWith('http')) {
-        return (
-            <a href={redirectTo} className='button-wrapper flex-center'>
-                {children}
-            </a>
-        );
-    }
+    const handleClick = () => {
+        if (!linkTo) return;
+        if (linkTo.startsWith('http')) {
+            window.open(linkTo, '_blank', 'noopener,noreferrer');
+        } else {
+            history.push(linkTo);
+        }
+    };
 
     return (
-        <Link to={linkTo} className='button-wrapper flex-center'>
+        <button onClick={handleClick} className={`button-wrapper flex-center ${className}`}>
             {children}
-        </Link>
+        </button>
     );
 };
 
