@@ -1,0 +1,30 @@
+.seat-arrangement {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.seats-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 30vh;
+}
+
+.screen-svg {
+
+    width: min-content;
+    height: min-content;
+    margin-bottom: 50px;
+}

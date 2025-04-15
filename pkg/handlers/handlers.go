@@ -201,7 +201,45 @@ func GetMovieReviewsHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(reviews)
 }
 
-func GetScreeningSeatingPlanHandler(w http.ResponseWriter, r *http.Request) {
+func GetScreeningsHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	queries := r.URL.Query()
+
+	screening_id := queries.Get("screeningId")
+	if screening_id == "" {
+		fmt.Println("Error: missing 'screeningId' query parameter")
+		http.Error(w, "missing 'screeningId' query parameter", http.StatusBadRequest)
+		return
+	}
+
+	screening_repo, cleanup, err := models.ScreeningRepo()
+	if err != nil {
+		fmt.Println("Error getting screening repository:", err)
+		http.Error(w, "Error getting screening repository", http.StatusInternalServerError)
+		return
+	}
+	defer cleanup()
+
+	object_id, err := database.ObjectId(screening_id)
+	if err != nil {
+		fmt.Println("Error converting screening_id to ObjectID:", err)
+		http.Error(w, "Invalid screening ID", http.StatusBadRequest)
+		return
+	}
+
+	screening, err := screening_repo.FindOne(ctx, bson.D{{Key: "_id", Value: object_id}})
+	if err != nil {
+		fmt.Println("Failed to get screening seating plan:", err)
+		http.Error(w, "Failed to get screening seating plan", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(screening)
+}
+
+func GetScreeningSeatsHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	queries := r.URL.Query()
 

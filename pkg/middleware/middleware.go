@@ -5,10 +5,23 @@ import (
 	"net/http"
 )
 
+type statusResponseWriter struct {
+	http.ResponseWriter
+	status int
+}
+
+func (srw *statusResponseWriter) WriteHeader(code int) {
+	srw.status = code
+	srw.ResponseWriter.WriteHeader(code)
+}
+
 func Logging(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Printf("Request: %s %s?%s\n\n", r.Method, r.URL.Path, r.URL.RawQuery)
-		next.ServeHTTP(w, r)
+		srw := &statusResponseWriter{ResponseWriter: w, status: http.StatusOK}
+
+		next.ServeHTTP(srw, r)
+
+		fmt.Printf("\nRequest: %s %s?%s\nResponse Code: %d\n\n", r.Method, r.URL.Path, r.URL.RawQuery, srw.status)
 	})
 }
 

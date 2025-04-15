@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { SourceContext } from '../../context/SourceContext'; // Assuming you have a context for the API URL
-import ButtonWrapper from '../wrappers/ButtonWrapper'; // Assuming you have a ButtonWrapper component
+import LinkWrapper from '../wrappers/LinkWrapper'; // Assuming you have a LinkWrapper component
 import './MovieDetailsInfo.css'; // Assuming you have a CSS file for styling
 import ContentBox from '../wrappers/ContentBox';
 import MovieOverview from '../low/MovieOverview';
@@ -28,9 +28,9 @@ const MovieDetailsInfo = ({ movie }) => {
                 <p><strong>Duration:</strong> {movie.duration}</p>
                 <p><strong>Language:</strong> {movie.language}</p>
                 <div className="movie-details-buttons">
-                    <ButtonWrapper linkTo={movie.trailerUrl} >Watch Trailer</ButtonWrapper>
-                    <ButtonWrapper linkTo={movie.watchUrl} >Watch Movie</ButtonWrapper>
-                    <ButtonWrapper linkTo={`/book/${movie._id}`} >Book Tickets</ButtonWrapper>
+                    <LinkWrapper linkTo={movie.trailerUrl} >Watch Trailer</LinkWrapper>
+                    <LinkWrapper linkTo={movie.watchUrl} >Watch Movie</LinkWrapper>
+                    <LinkWrapper linkTo={`/book/${movie._id}`} >Book Tickets</LinkWrapper>
                 </div>
             </div>
         </ContentBox>

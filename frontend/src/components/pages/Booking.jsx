@@ -11,7 +11,7 @@ import './Booking.css';
 /**
  * @typedef {Object} Seat
  * @property {number} row - The row number of the seat.
- * @property {number} nummber - The column number of the seat.
+ * @property {number} number - The column number of the seat.
  * @property {boolean} available - Whether the seat is available for booking.
  * @property {boolean} price - Whether the seat is selected by the user.
  * @property {string} type - Whether the seat is selected by the user.

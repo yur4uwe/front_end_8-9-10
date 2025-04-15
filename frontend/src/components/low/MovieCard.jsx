@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { SourceContext } from '../../context/SourceContext'; // Assuming you have a context for the image base URL
 import './MovieCard.css'; // Assuming you have a CSS file for styling
-import ButtonWrapper from '../wrappers/ButtonWrapper';
+import LinkWrapper from '../wrappers/LinkWrapper';
 import Clickable from '../wrappers/Clickable';
 
 /**
@@ -54,8 +54,8 @@ const MovieCard = ({ movie, isLastChild }) => {
                     {movie.rating}
                 </div>
                 <div className="movie-buttons hidden">
-                    <ButtonWrapper linkTo={`/movie/${movie._id}`}>More</ButtonWrapper>
-                    <ButtonWrapper linkTo={`/book/${movie._id}`} >Book</ButtonWrapper>
+                    <LinkWrapper linkTo={`/movie/${movie._id}`}>More</LinkWrapper>
+                    <LinkWrapper linkTo={`/book/${movie._id}`} >Book</LinkWrapper>
                 </div>
             </div>
         </Clickable>

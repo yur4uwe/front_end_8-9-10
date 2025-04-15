@@ -1,5 +1,5 @@
 import React from 'react';
-import ButtonWrapper from '../wrappers/ButtonWrapper';
+import LinkWrapper from '../wrappers/LinkWrapper';
 import './ScreeningCard.css';
 
 /**
@@ -25,12 +25,12 @@ const ScreeningCard = ({ screening }) => {
 
 
     return (
-        <ButtonWrapper className='book-button' linkTo={`/booking/${screening._id}/${screening.time}`}>
+        <LinkWrapper className='book-button' linkTo={`/booking/${screening._id}/${screening.time}`}>
             <div className="book-button-cont-box">
                 <p>{hour(screening.time)}</p>
                 <p>Free: {countAvailableSeats(screening)}</p>
             </div>
-        </ButtonWrapper>
+        </LinkWrapper>
     );
 };
 
