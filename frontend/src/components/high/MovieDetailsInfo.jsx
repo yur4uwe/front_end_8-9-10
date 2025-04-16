@@ -15,9 +15,7 @@ const MovieDetailsInfo = ({ movie }) => {
 
     return (
         <ContentBox className='movie-details'>
-            <div className='movie-details-image'>
-                <img src={movie.imageUrl} alt={movie.title} className='movie-details-poster' />
-            </div>
+            <img src={movie.imageUrl} alt={movie.title} className='movie-details-poster' />
             <div className='movie-details-content'>
                 <p><strong>Release Date:</strong> {movie.releaseDate.split("-").reverse().join(".")}</p>
                 <p><strong>Genre:</strong> {movie.genre}</p>
@@ -28,9 +26,9 @@ const MovieDetailsInfo = ({ movie }) => {
                 <p><strong>Duration:</strong> {movie.duration}</p>
                 <p><strong>Language:</strong> {movie.language}</p>
                 <div className="movie-details-buttons">
-                    <LinkWrapper linkTo={movie.trailerUrl} >Watch Trailer</LinkWrapper>
-                    <LinkWrapper linkTo={movie.watchUrl} >Watch Movie</LinkWrapper>
-                    <LinkWrapper linkTo={`/book/${movie._id}`} >Book Tickets</LinkWrapper>
+                    <LinkWrapper linkTo={movie.trailerUrl}>Watch Trailer</LinkWrapper>
+                    <LinkWrapper linkTo={movie.watchUrl}>Watch Movie</LinkWrapper>
+                    <LinkWrapper linkTo={`/book/${movie._id}`}>Book Tickets</LinkWrapper>
                 </div>
             </div>
         </ContentBox>

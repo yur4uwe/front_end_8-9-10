@@ -6,6 +6,7 @@ import './Header.css';
 const Header = () => {
     const [headerHeight, setHeaderHeight] = useState(300);
     const maxHeight = 300;
+    const collapseHeight = 200; // Height at which the header is considered collapsed
     const minHeight = 60;
 
     useEffect(() => {
@@ -21,7 +22,7 @@ const Header = () => {
     return (
         <>
             <header
-                className={`header-sticky ${headerHeight <= minHeight ? 'header-minimized' : ''}`}
+                className={`header-sticky ${headerHeight <= collapseHeight ? 'header-minimized' : ''}`}
                 style={{ height: `${headerHeight}px` }}
             >
                 <HeaderLinks />

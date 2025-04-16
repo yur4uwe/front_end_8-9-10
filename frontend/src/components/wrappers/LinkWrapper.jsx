@@ -15,7 +15,7 @@ const LinkWrapper = ({ children, linkTo, className }) => {
     };
 
     return (
-        <button onClick={handleClick} className={`link-wrapper flex-center ${className}`}>
+        <button onClick={handleClick} className={`link-wrapper flex-center ${className ?? ''}`}>
             {children}
         </button>
     );

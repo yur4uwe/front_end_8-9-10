@@ -1,0 +1,71 @@
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOutDown {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+.fade-out-down {
+    animation: fadeOutDown 0.3s ease-out forwards;
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.3s ease-out forwards;
+}
+
+.receipt-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    padding: 10px;
+    margin: 5px;
+    background-color: #cccccc21;
+    border-radius: 4px;
+}
+
+.receipt-item button {
+    border: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background-color: #ff030373;
+    color: white;
+}
+
+.pay-button {
+    background-color: #33ff0046;
+    color: white;
+}
+
+.seat-info {
+    padding-right: 20px;
+}
+
+.receipt-item-min {
+    width: min-content;
+}
+
+.receipt-item-max {
+    width: max-content;
+}

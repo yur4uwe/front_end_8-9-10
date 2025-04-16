@@ -1,6 +1,16 @@
 import React, { createContext } from "react";
 
 // Create the context
+/**
+ * @typedef {Object} SourceContextType
+ * @property {string} source - The base URL for the API.
+ * @property {string} apiUrl - The API URL for the application.
+ * @property {string} imageBaseUrl - The base URL for images.
+ */
+
+/**
+ * @type {React.Context<SourceContextType>} SourceContext
+ */
 const SourceContext = createContext();
 
 const SourceProvider = ({ children }) => {

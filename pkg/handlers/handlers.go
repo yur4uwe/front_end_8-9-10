@@ -276,3 +276,91 @@ func GetScreeningSeatsHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(screening)
 }
+
+func ConfirmBookingHandler(w http.ResponseWriter, r *http.Request) {
+	type BookingRequest struct {
+		ScreeningId string `json:"screeningId"`
+		Seats       []struct {
+			Row    int `json:"row"`
+			Number int `json:"number"`
+		} `json:"seats"`
+	}
+
+	ctx := r.Context()
+
+	var r_body BookingRequest
+	err := json.NewDecoder(r.Body).Decode(&r_body)
+	if err != nil {
+		fmt.Println("Error decoding booked seats:", err)
+		http.Error(w, "Error decoding booked seats", http.StatusBadRequest)
+		return
+	}
+
+	fmt.Println("r_body:", r_body)
+
+	screening_id := r_body.ScreeningId
+	if screening_id == "" {
+		fmt.Println("Error: missing 'screeningId' in request body")
+		http.Error(w, "missing 'screeningId' in request body", http.StatusBadRequest)
+		return
+	}
+
+	booked_seats := r_body.Seats
+	if len(booked_seats) == 0 {
+		fmt.Println("Error: missing 'seats' in request body")
+		http.Error(w, "missing 'bookedSeats' in request body", http.StatusBadRequest)
+		return
+	}
+
+	screening_repo, cleanup, err := models.ScreeningRepo()
+	if err != nil {
+		fmt.Println("Error getting screening repository:", err)
+		http.Error(w, "Error getting screening repository", http.StatusInternalServerError)
+		return
+	}
+	defer cleanup()
+
+	object_id, err := database.ObjectId(screening_id)
+	if err != nil {
+		fmt.Println("Error converting screening_id to ObjectID:", err)
+		http.Error(w, "Invalid screening ID", http.StatusBadRequest)
+		return
+	}
+
+	screening, err := screening_repo.FindOne(ctx, bson.D{{Key: "_id", Value: object_id}})
+	if err != nil {
+		fmt.Println("Failed to get screening seating plan:", err)
+		http.Error(w, "Failed to get screening seating plan", http.StatusInternalServerError)
+		return
+	}
+
+	var all_seats_valid bool = true
+	for _, seat := range booked_seats {
+		for _, screening_seat := range screening.Seats {
+			if seat.Row == screening_seat.Row && seat.Number == screening_seat.Number {
+				if !screening_seat.Available {
+					all_seats_valid = false
+					break
+				}
+				screening_seat.Available = false
+			}
+		}
+		if !all_seats_valid {
+			fmt.Println("Error: one or more seats are not available")
+			fmt.Println("seat:", seat)
+			http.Error(w, "one or more seats are not available", http.StatusBadRequest)
+			return
+		}
+	}
+
+	modified_count, err := screening_repo.UpdateOne(ctx, bson.D{{Key: "_id", Value: object_id}}, bson.D{{Key: "$set", Value: bson.D{{Key: "seats", Value: screening.Seats}}}})
+	if err != nil || modified_count != 1 {
+		fmt.Println("Failed to update screening seating plan: mod_count:", modified_count, "\nerr:", err)
+		http.Error(w, "Failed to update screening seating plan", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(screening)
+}

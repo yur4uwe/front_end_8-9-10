@@ -1,6 +1,16 @@
 .button-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
+    padding: var(--small-padding) var(--medium-padding);
+    margin: var(--small-margin);
+    border-radius: 5px;
+    background-color: var(--dark-bg-text);
+    color: var(--link-col);
+    border: none;
+    text-decoration: none;
+
+    transition: all 0.3s ease;
+}
+
+.button-wrapper:hover {
+    background-color: var(--button-hover-col);
+    color: var(--light-bg-text);
 }
