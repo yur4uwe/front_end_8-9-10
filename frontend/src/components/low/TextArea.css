@@ -1,0 +1,32 @@
+.text-area {
+    position: relative;
+    background: transparent;
+    margin: 5px;
+    margin-top: 15px;
+}
+
+.text-area-title {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-size: 12px;
+    color: #999;
+    padding: 0 5px;
+    background: #34404c;
+    transition: all 0.2s ease-in-out;
+}
+
+.text-area-input {
+    width: calc(100% - 22px);
+    min-width: 100px;
+    max-width: 200px;
+    height: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #999;
+    background: transparent;
+    transition: all 0.2s ease-in-out;
+    resize: none;
+}

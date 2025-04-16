@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useCallback, useContext } from 'react';
+import { useHistory } from 'react-router-dom'; // Importing necessary hooks from react-router-dom
 import useApi from '../hooks/useApi'; // Assuming you have a custom hook for API requests
 import { SourceContext } from './SourceContext';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 /**
  * @typedef {Object} Seat
@@ -26,6 +26,12 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
  * @property {() => void} openModal - Function to open the modal.
  * @property {() => void} closeModal - Function to close the modal.
  * @property {() => void} confirmSeats - Function to confirm selected seats.
+ * @property {string} name - Name of the user.
+ * @property {string} email - Email of the user.
+ * @property {string} phone - Phone number of the user.
+ * @property {(name: string) => void} setName - Function to update the name state.
+ * @property {(email: string) => void} setEmail - Function to update the email state.
+ * @property {(phone: string) => void} setPhone - Function to update the phone state.
  */
 
 /**
@@ -42,6 +48,10 @@ const SeatBookingProvider = ({ screeningId, children }) => {
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const history = useHistory(); // Using useHistory from react-router-dom for navigation
     const { request } = useApi(); // Assuming you have a custom hook for API requests
     const { apiUrl } = useContext(SourceContext);
 
@@ -61,7 +71,9 @@ const SeatBookingProvider = ({ screeningId, children }) => {
     }, [fetchScreening]);
 
     const onSeatSelect = (seat) => {
-        console.log('Selected seat:', seat);
+        if (!seat.available) {
+            return;
+        }
         setSelectedSeats((prev) => {
             const seatExists = prev.some(
                 (s) => s.row === seat.row && s.number === seat.number
@@ -76,6 +88,18 @@ const SeatBookingProvider = ({ screeningId, children }) => {
     };
 
     const confirmSeats = async () => {
+        if (selectedSeats.length === 0) {
+            return;
+        }
+        if (name === '' || email === '' || phone === '') {
+            alert('Please fill in all the fields!');
+            return;
+        }
+        if (!selectedSeats.every((seat) => seat.available)) {
+            alert('Some selected seats are not available!');
+            return;
+        }
+
         try {
             const response = await request(`${apiUrl}/movie/screening/confirm`, true, {
                 method: 'POST',
@@ -84,12 +108,25 @@ const SeatBookingProvider = ({ screeningId, children }) => {
                 },
                 body: JSON.stringify({
                     screeningId,
+                    user: {
+                        name,
+                        email,
+                        phone,
+                    },
                     seats: selectedSeats.map((seat) => ({
                         row: seat.row,
                         number: seat.number,
                     })),
                 }),
             });
+
+            if (response.message === 'Booking confirmed') {
+                alert('Seats confirmed successfully!');
+                history.push('/'); // Redirect to the home page or any other page after confirmation
+                setSelectedSeats([]); // Clear selected seats after confirmation
+                setIsModalOpen(false); // Close the modal after confirmation
+            }
+
         } catch (error) {
             console.error('Error confirming seats:', error);
         }
@@ -104,6 +141,9 @@ const SeatBookingProvider = ({ screeningId, children }) => {
             selectedSeats,
             loading,
             isModalOpen,
+            name,
+            email,
+            phone,
             fetchScreening,
             onSeatSelect,
             setScreening,
@@ -112,6 +152,9 @@ const SeatBookingProvider = ({ screeningId, children }) => {
             openModal,
             closeModal,
             confirmSeats,
+            setName,
+            setEmail,
+            setPhone,
         }}>
             {children}
         </SeatBookingCtx.Provider>

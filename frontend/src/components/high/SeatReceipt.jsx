@@ -5,6 +5,7 @@ import ReceiptItem from '../low/ReceiptItem';
 import Modal from '../low/Modal'; // Assume you have a simple Modal component
 import ButtonWrapper from '../wrappers/ButtonWrapper';
 import './SeatReceipt.css';
+import TextArea from '../low/TextArea';
 
 const SeatReceipt = () => {
     const {
@@ -13,7 +14,13 @@ const SeatReceipt = () => {
         openModal,
         closeModal,
         isModalOpen,
-        confirmSeats
+        confirmSeats,
+        name,
+        email,
+        phone,
+        setName,
+        setEmail,
+        setPhone,
     } = useContext(SeatBookingCtx);
 
     const handleRemoveSeat = (seat) => {
@@ -59,7 +66,7 @@ const SeatReceipt = () => {
                                         onClick={openModal}
                                         style={{ cursor: 'pointer' }}
                                     >
-                                        +{selectedSeats.length - 4} more...
+                                        +{selectedSeats.length - 4} more
                                     </li>
                                 );
                             }
@@ -79,14 +86,36 @@ const SeatReceipt = () => {
             {isModalOpen && (
                 <Modal toClose={closeModal}>
                     <h3>All Booked Seats</h3>
-                    <SeatConfirmer onPayClick={confirmSeats} />
-                    <div className='receipt-confirm-modal'>
+                    <div className='receipt-modal-confirm-container'>
+                        <div className="confirm-inputs">
+                            <TextArea
+                                name="Name"
+                                className="receipt-text-area"
+                                placeholder="Type here..."
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                            <TextArea
+                                name="Email"
+                                className="receipt-text-area"
+                                placeholder="Type here..."
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <TextArea
+                                name="Phone"
+                                className="receipt-text-area"
+                                placeholder="Type here..."
+                                onChange={(e) => setPhone(e.target.value)}
+                            />
+                        </div>
+                        <SeatConfirmer onPayClick={confirmSeats} />
+                    </div>
+                    {selectedSeats.length > 0 && <div className='receipt-confirm-modal'>
                         {selectedSeats.map((seat) => (
                             <ReceiptItem key={`${seat.row}-${seat.number}`} seat={seat} onRemove={handleRemoveSeat}>
                                 Row: {seat.row}, Seat: {seat.number} (Price: {seat.price})
                             </ReceiptItem>
                         ))}
-                    </div>
+                    </div>}
                     <ButtonWrapper onClick={closeModal}>Close</ButtonWrapper>
                 </Modal>
             )}

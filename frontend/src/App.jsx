@@ -8,6 +8,7 @@ import MovieDetails from './components/pages/MovieDetails';
 import NotFound from './components/pages/NotFound'; // Import the NotFound component
 import { SourceProvider } from './context/SourceContext'; // Import the context provider
 import SeatArrangement from './components/pages/SeatArrangement'; // Adjust the import path as necessary
+import MyBookings from './components/pages/MyBookings';
 import './App.css'; // Import global styles
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
                         <Route exact path="/" component={Home} />
                         <Route path="/book/:id/" component={Booking} />
                         <Route path="/booking/:id/:time" component={SeatArrangement} /> {/* Adjust the path as necessary */}
+                        <Route path="/my-bookings" component={MyBookings} /> {/* Adjust the path as necessary */}
                         <Route path="/movie/:id" component={MovieDetails} /> {/* Adjust the path as necessary */}
                         <Route path="*" component={NotFound} />
                     </Switch>
