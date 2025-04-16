@@ -58,7 +58,7 @@ const SeatBookingProvider = ({ screeningId, children }) => {
 
     const fetchScreening = useCallback(async () => {
         try {
-            const response = await request(`${apiUrl}/movie/screening?screeningId=${screeningId}`);
+            const response = await request(`/movie/screening?screeningId=${screeningId}`);
             setScreening(response.seats);
             setLoading(false);
         } catch (error) {
@@ -101,7 +101,7 @@ const SeatBookingProvider = ({ screeningId, children }) => {
         }
 
         try {
-            const response = await request(`${apiUrl}/movie/screening/confirm`, true, {
+            const response = await request(`/movie/screening/confirm`, true, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

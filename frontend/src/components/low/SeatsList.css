@@ -1,0 +1,30 @@
+.booked-seat {
+    display: inline-block;
+    width: min-content;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0 8px 8px 0;
+    white-space: nowrap;
+}
+
+.seats-list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.type-span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.position-span {
+    display: block;
+}
+
+.booked-seat {
+    background-color: #34404c;
+    cursor: default;
+}

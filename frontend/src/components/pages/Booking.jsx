@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState, useContext } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { SourceContext } from '../../context/SourceContext'; // Assuming you have a context for the API URL
 import Loader from '../low/Loader';
 import ContentBox from '../wrappers/ContentBox';
 import ScreeningList from '../high/ScreeningList';
+import useApi from '../../hooks/useApi'; // Assuming you have a custom hook for API requests
 import './Booking.css';
 
 
@@ -30,26 +30,25 @@ import './Booking.css';
  * @returns {JSX.Element}
  */
 const Booking = () => {
-    const { apiUrl } = useContext(SourceContext); // Assuming you have a context for the API URL
     const { id: movieId } = useParams();
     const [screenings, setScreenings] = useState([]);
     const [movieName, setMovieName] = useState(''); // State to hold the movie name
+    const { request } = useApi(); // Assuming you have a custom hook for API requests
 
     const fetchMovieScreenings = useCallback(async () => {
         try {
-            const response = await fetch(`${apiUrl}/movie/screenings?movieId=${movieId}`);
-            const data = await response.json();
-            console.log('Fetched movie screenings:', data); // Debugging line
+            const response = await request(`/movie/screenings?movieId=${movieId}`);
+            console.log('Fetched movie screenings:', response); // Debugging line
 
-            setMovieName(data.movie.title); // Assuming the API returns the movie name
-            setScreenings(data.screenings ?? []); // Ensure we set an empty array if no screenings are found
+            setMovieName(response.movie.title); // Assuming the API returns the movie name
+            setScreenings(response.screenings ?? []); // Ensure we set an empty array if no screenings are found
 
             console.log('Movie Name:', movieName); // Debugging line
 
         } catch (error) {
             console.error('Error fetching movie screenings:', error);
         }
-    }, [movieId, apiUrl, movieName]);
+    }, [movieId, movieName]);
 
     useEffect(() => {
         console.log('Booking component mounted or dependencies changed, fetching screenings...');
@@ -57,8 +56,6 @@ const Booking = () => {
     }, [fetchMovieScreenings]);
 
     if (!screenings || !screenings.length) return <Loader description='Loading screenings...' />;
-
-
 
     return (
         <ContentBox className='booking-container'>

@@ -129,3 +129,51 @@ func ConfirmBookingHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{"message": "Booking confirmed"})
 }
+
+func GetBookingsHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	queries := r.URL.Query()
+
+	user_name := queries.Get("name")
+	if user_name == "" {
+		http.Error(w, "name query parameter is required", http.StatusBadRequest)
+		return
+	}
+	user_email := queries.Get("email")
+	if user_email == "" {
+		http.Error(w, "email query parameter is required", http.StatusBadRequest)
+		return
+	}
+	user_phone := queries.Get("phone")
+	if user_phone == "" {
+		http.Error(w, "phone query parameter is required", http.StatusBadRequest)
+		return
+	}
+
+	booking_repo, cleanup, err := models.BookingRepo()
+	if err != nil {
+		fmt.Println("Error getting booking repository:", err)
+		http.Error(w, "Error getting booking repository", http.StatusInternalServerError)
+		return
+	}
+	defer cleanup()
+
+	user_bookings, err := booking_repo.FindOne(ctx, bson.D{
+		{Key: "$or", Value: bson.A{
+			bson.D{{Key: "name", Value: user_name}},
+			bson.D{{Key: "email", Value: user_email}},
+			bson.D{{Key: "phone", Value: user_phone}},
+		}},
+	})
+	if err != nil {
+		fmt.Println("Error getting bookings:", err)
+		http.Error(w, "Error getting bookings", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Println("User Bookings:", user_bookings.Bookings)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(user_bookings.Bookings)
+}

@@ -12,7 +12,7 @@ import './TextArea.css';
  * @param {function} [props.onBlur] Blur handler.
  * @param {function} [props.onChange] Change handler.
  */
-const TextArea = ({ name, value, className, placeholder, onFocus, onBlur, onChange }) => {
+const TextArea = ({ name, value, className, placeholder, onFocus, onBlur, onChange, color }) => {
     const inputId = name ? name.toLowerCase().replace(/\s+/g, '-') : undefined;
     return (
         <div className={`text-area ${className ?? ''}`}>
@@ -26,7 +26,7 @@ const TextArea = ({ name, value, className, placeholder, onFocus, onBlur, onChan
                 onChange={onChange}
                 value={value}   // For a controlled component
             />
-            {name && <label htmlFor={inputId} className="text-area-title">{name}</label>}
+            {name && <label htmlFor={inputId} className="text-area-title" style={{ background: color }}>{name}</label>}
         </div>
     );
 };

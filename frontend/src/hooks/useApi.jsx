@@ -1,6 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useContext } from 'react';
+import { SourceContext } from '../context/SourceContext'; // Adjust the import path as necessary
 
 const useApi = () => {
+    const { apiUrl } = useContext(SourceContext);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -14,7 +16,7 @@ const useApi = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(url, options);
+            const response = await fetch(`${apiUrl}${url}`, options);
             if (!response.ok) {
                 const errorText = await response.text();
                 throw new Error(errorText || 'API request failed');

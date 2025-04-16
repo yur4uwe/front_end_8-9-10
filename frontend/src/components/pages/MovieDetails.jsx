@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import { SourceContext } from '../../context/SourceContext';
 import Loader from '../low/Loader';
 import ContentBox from '../wrappers/ContentBox';
 import MovieDetailsInfo from '../high/MovieDetailsInfo';
 import MovieComments from '../high/MovieComments';
 import './MovieDetails.css';
+import useApi from '../../hooks/useApi';
 
 const MovieDetails = () => {
-    const { apiUrl } = useContext(SourceContext);
+    const { request } = useApi()
     const { id: movieId } = useParams();
     /**
      * State to hold movie details.
@@ -19,13 +19,12 @@ const MovieDetails = () => {
     // Memoize fetchMovieDetails and include fetchMovieScreenings in its dependencies.
     const fetchMovieDetails = useCallback(async () => {
         try {
-            const response = await fetch(`${apiUrl}/movie?movieId=${movieId}`);
-            const data = await response.json();
-            setMovie(data);
+            const response = await request(`/movie?movieId=${movieId}`);
+            setMovie(response || {});
         } catch (error) {
             console.error('Error fetching movie details:', error);
         }
-    }, [apiUrl, movieId]);
+    }, [movieId]);
 
     // Call fetchMovieDetails whenever dependencies change.
     useEffect(() => {
