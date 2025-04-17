@@ -1,8 +1,7 @@
 import React, { createContext, useState, useEffect, useCallback, useContext } from 'react';
 import { useHistory } from 'react-router-dom'; // Importing necessary hooks from react-router-dom
 import useApi from '../hooks/useApi'; // Assuming you have a custom hook for API requests
-import { SourceContext } from './SourceContext';
-import { OverlayNoticeContext } from './OverlayNoticeContext';
+import { OverlayNoticeContext } from 'src/context/OverlayNoticeContext';
 
 /**
  * @typedef {Object} Seat
@@ -54,7 +53,6 @@ const SeatBookingProvider = ({ screeningId, children }) => {
     const [phone, setPhone] = useState('');
     const history = useHistory(); // Using useHistory from react-router-dom for navigation
     const { request } = useApi(); // Assuming you have a custom hook for API requests
-    const { apiUrl } = useContext(SourceContext);
     const { openNotice } = useContext(OverlayNoticeContext); // Assuming you have a context for notices
 
     const fetchScreening = useCallback(async () => {
@@ -65,7 +63,7 @@ const SeatBookingProvider = ({ screeningId, children }) => {
         } catch (error) {
             console.error('Error fetching screening data:', error);
         }
-    }, [screeningId, apiUrl]);
+    }, [screeningId, request]);
 
     useEffect(() => {
         fetchScreening();

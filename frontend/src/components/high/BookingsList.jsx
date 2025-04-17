@@ -36,7 +36,7 @@ const BookingsList = ({ bookings }) => {
                     .map((booking, index) => (
                         <div key={index} className="booking-item">
                             <h3>Booking: {booking.movie.title}</h3>
-                            <p>Time: {day(booking.time)}, {hour(booking.time)}</p>
+                            <p>Date: {day(booking.time)}, Time: {hour(booking.time)}</p>
                             <p>Seats: </p>
                             <SeatsList seats={booking.seats} />
                         </div>

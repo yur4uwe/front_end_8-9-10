@@ -159,11 +159,9 @@ func GetBookingsHandler(w http.ResponseWriter, r *http.Request) {
 	defer cleanup()
 
 	user_bookings, err := booking_repo.FindOne(ctx, bson.D{
-		{Key: "$or", Value: bson.A{
-			bson.D{{Key: "name", Value: user_name}},
-			bson.D{{Key: "email", Value: user_email}},
-			bson.D{{Key: "phone", Value: user_phone}},
-		}},
+		{Key: "name", Value: user_name},
+		{Key: "email", Value: user_email},
+		{Key: "phone", Value: user_phone},
 	})
 	if err != nil {
 		fmt.Println("Error getting bookings:", err)

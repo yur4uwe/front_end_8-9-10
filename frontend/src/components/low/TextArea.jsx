@@ -12,13 +12,13 @@ import './TextArea.css';
  * @param {function} [props.onBlur] Blur handler.
  * @param {function} [props.onChange] Change handler.
  */
-const TextArea = ({ name, value, className, placeholder, onFocus, onBlur, onChange, color }) => {
+const TextArea = ({ type, name, value, className, placeholder, onFocus, onBlur, onChange, color }) => {
     const inputId = name ? name.toLowerCase().replace(/\s+/g, '-') : undefined;
     return (
         <div className={`text-area ${className ?? ''}`}>
             <input
                 id={inputId}
-                type="text"
+                type={type ?? 'text'}
                 className="text-area-input"
                 placeholder={placeholder ?? 'Type here...'}
                 onFocus={onFocus}
