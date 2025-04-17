@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import './MyBookings.css'; // Optional: Create a separate CSS file for styling
 import TextArea from '../low/TextArea';
 import BookingsList from '../high/BookingsList';
 import useApi from '../../hooks/useApi'; // Assuming you have a custom hook for API requests
 import ButtonWrapper from '../wrappers/ButtonWrapper';
+import { OverlayNoticeContext } from '../../context/OverlayNoticeContext';
 
 const MyBookings = () => {
     const [name, setName] = useState('');
@@ -11,18 +12,18 @@ const MyBookings = () => {
     const [phone, setPhone] = useState('');
     const [bookings, setBookings] = useState([]);
     const { request } = useApi(); // Assuming you have a custom hook for API requests
+    const { openNotice } = useContext(OverlayNoticeContext)
 
     const fetchBookings = useCallback(async () => {
         if (name === '' && email === '' && phone === '') {
-            alert('Please fill in at least one field to search for bookings!');
+            openNotice('Please fill in at least one field to search for bookings!', 'error')
             return;
         }
-        let bookings;
-        try {
-            bookings = await request(`/bookings?name=${name}&email=${email}&phone=${phone}`);
-        } catch (error) {
-            console.error('Error fetching bookings:', error);
-        }
+        const bookings = await request(`/bookings?name=${name}&email=${email}&phone=${phone}`)
+            .catch((error) => {
+                console.error('Error fetching bookings:', error);
+                openNotice('Failed to fetch bookings. Please try again later.', 'error')
+            });
 
         for (const booking of bookings) {
             const movieId = booking.movieId;

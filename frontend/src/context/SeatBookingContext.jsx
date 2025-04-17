@@ -55,7 +55,7 @@ const SeatBookingProvider = ({ screeningId, children }) => {
     const history = useHistory(); // Using useHistory from react-router-dom for navigation
     const { request } = useApi(); // Assuming you have a custom hook for API requests
     const { apiUrl } = useContext(SourceContext);
-    const { openNotice, closeNotice } = useContext(OverlayNoticeContext); // Assuming you have a context for notices
+    const { openNotice } = useContext(OverlayNoticeContext); // Assuming you have a context for notices
 
     const fetchScreening = useCallback(async () => {
         try {
@@ -93,11 +93,11 @@ const SeatBookingProvider = ({ screeningId, children }) => {
             return;
         }
         if (name === '' || email === '' || phone === '') {
-            alert('Please fill in all the fields!');
+            openNotice('Please fill in all the fields!', 'error');
             return;
         }
         if (!selectedSeats.every((seat) => seat.available)) {
-            alert('Some selected seats are not available!');
+            openNotice('Some selected seats are not available!', 'error');
             return;
         }
 
@@ -122,8 +122,7 @@ const SeatBookingProvider = ({ screeningId, children }) => {
             });
 
             if (response.message === 'Booking confirmed') {
-                alert('Seats confirmed successfully!');
-                openNotice('Success!', 'Your seats have been booked successfully!', 'success', closeNotice);
+                openNotice('Your seats have been booked successfully!', 'success');
                 history.push('/'); // Redirect to the home page or any other page after confirmation
                 setSelectedSeats([]); // Clear selected seats after confirmation
                 setIsModalOpen(false); // Close the modal after confirmation

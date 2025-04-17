@@ -1,4 +1,17 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
 .booking-item {
 
     border-bottom: 2px solid #ccc;
+
+    animation: fadeIn 0.3s ease-in-out forwards;
 }

@@ -6,18 +6,18 @@ import Home from './components/pages/Home';
 import Booking from "./components/pages/Booking"; // Adjust the import path as necessary
 import MovieDetails from './components/pages/MovieDetails';
 import NotFound from './components/pages/NotFound'; // Import the NotFound component
-import { SourceProvider } from './context/SourceContext'; // Import the context provider
 import SeatArrangement from './components/pages/SeatArrangement'; // Adjust the import path as necessary
 import MyBookings from './components/pages/MyBookings';
-import './App.css'; // Import global styles
+import { SourceProvider } from './context/SourceContext'; // Import the context provider
 import { OverlayNoticeProvider } from './context/OverlayNoticeContext';
 import Notice from './components/high/Notice'; // Import the Notice component
+import './App.css'; // Import global styles
 
 const App = () => {
     return (
         <SourceProvider>
             <OverlayNoticeProvider>
-                <Notice/>
+                <Notice />
                 <Router>
                     <Header />
                     <main className='main-content'>
@@ -36,6 +36,5 @@ const App = () => {
         </SourceProvider>
     );
 };
-
 
 export default App;

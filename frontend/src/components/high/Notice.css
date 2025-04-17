@@ -1,6 +1,30 @@
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOutDown {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
 .overlay-notice-container {
     position: fixed;
-    top: 0;
+    top: 20px;
     left: 0;
     width: 100%;
     height: 100%;
@@ -9,13 +33,22 @@
     z-index: 1000;
 }
 
+.entering {
+    animation: fadeInUp 0.3s ease-in-out forwards;
+}
+
+.exiting {
+    animation: fadeOutDown 0.3s ease-in-out forwards;
+}
+
 .overlay-notice-content {
     color: #fff;
     padding: 20px;
     border-radius: 8px;
     min-width: 300px;
-    text-align: center;
+    text-align: left;
     height: min-content;
+
 }
 
 /* Background colors based on type */
