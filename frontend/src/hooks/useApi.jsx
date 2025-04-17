@@ -3,9 +3,7 @@ import { SourceContext } from '../context/SourceContext'; // Adjust the import p
 
 const useApi = () => {
     const { apiUrl } = useContext(SourceContext);
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-
     /**
      * Makes an API request.
      * @param {string} url - The endpoint URL.
@@ -13,8 +11,6 @@ const useApi = () => {
      * @returns {Promise<any>} - Parsed JSON response.
      */
     const request = useCallback(async (url, verbose, options = {}) => {
-        setLoading(true);
-        setError(null);
         try {
             const response = await fetch(`${apiUrl}${url}`, options);
             if (!response.ok) {
@@ -27,14 +23,12 @@ const useApi = () => {
             }
             return data;
         } catch (err) {
-            setError(err);
-            throw err;
-        } finally {
-            setLoading(false);
+            setError(err.message);
+            console.error(`Error in API request to ${url}:`, err.message);
         }
     }, []);
 
-    return { request, loading, error };
+    return { request, error };
 };
 
 export default useApi;

@@ -12,31 +12,33 @@ const MyBookings = () => {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [bookings, setBookings] = useState([]);
-    const { request } = useApi(); // Assuming you have a custom hook for API requests
+    const { request, error } = useApi(); // Assuming you have a custom hook for API requests
     const { openNotice } = useContext(OverlayNoticeContext)
-    const { addCredentials, validateCredentials } = useCredentials()
+    const { setCredentials, addCredentials, validateCredentials } = useCredentials()
 
     const fetchBookings = useCallback(async () => {
-        addCredentials(name, 'name')
-        addCredentials(email, 'email')
-        addCredentials(phone, 'phone')
+        console.log('Fetching bookings with:', { name, email, phone });
 
-        if (name === '' && email === '' && phone === '') {
-            openNotice('Please fill in at least one field to search for bookings!', 'error')
+        setCredentials(
+            { name, email, phone },
+        )
+
+        if (name === '' || email === '' || phone === '') {
+            openNotice('Please fill all fields to search for bookings!', 'error')
             return;
         }
 
-        const { passed, message } = validateCredentials();
+        const { passed, message } = validateCredentials({ name, email, phone });
         if (!passed) {
             openNotice(message, 'error')
             return;
         }
 
         const bookings = await request(`/bookings?name=${name}&email=${email}&phone=${phone}`)
-            .catch((error) => {
-                console.error('Error fetching bookings:', error);
-                openNotice('Failed to fetch bookings. Please try again later.', 'error')
-            });
+        if (error) {
+            openNotice(error, 'error')
+            return;
+        }
 
         for (const booking of bookings) {
             const movieId = booking.movieId;
@@ -59,7 +61,7 @@ const MyBookings = () => {
         <div className='my-bookings-container'>
             <div className="my-bookings-inputs content-box">
                 <h2>Find My Bookings</h2>
-                <form className="inputs-container">
+                <form className="inputs-container" onSubmit={(e) => { e.preventDefault(); fetchBookings(); }}>
                     <TextArea
                         value={name}
                         name='Name'
@@ -84,7 +86,7 @@ const MyBookings = () => {
                         color='#1e2c3a'
                         type='tel'
                     />
-                    <ButtonWrapper onClick={fetchBookings}>Find</ButtonWrapper>
+                    <ButtonWrapper type="submit">Find</ButtonWrapper>
                 </form>
             </div>
             <div className="bookings content-box">

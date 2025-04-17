@@ -165,7 +165,7 @@ func GetBookingsHandler(w http.ResponseWriter, r *http.Request) {
 	})
 	if err != nil {
 		fmt.Println("Error getting bookings:", err)
-		http.Error(w, "Error getting bookings", http.StatusInternalServerError)
+		http.Error(w, "No user found", http.StatusInternalServerError)
 		return
 	}
 

@@ -48,8 +48,10 @@ const useCredentials = () => {
      * @param {CredentialsObject} credentials
      * @returns {boolean} Returns true if credentials are valid.
      */
-    const validateCredentials = () => {
+    const validateCredentials = (providedCredentials = null) => {
         console.log('Validating credentials:', credentials);
+
+        const creds = providedCredentials ?? credentials;
 
         const res = {
             passed: false,
@@ -57,7 +59,7 @@ const useCredentials = () => {
         };
 
         // You can add validation logic depending on the credential type.
-        for (const [credType, credValue] of Object.entries(credentials)) {
+        for (const [credType, credValue] of Object.entries(creds)) {
             console.log(`Validating ${credType}: ${credValue}`);
 
             switch (credType) {
@@ -70,7 +72,7 @@ const useCredentials = () => {
                     }
                     break;
                 case 'password':
-                    if (credentials.password.length < 8) {
+                    if (credValue.length < 8) {
                         res.passed = false;
                         res.message = 'Invalid password format';
                         return res;
@@ -138,7 +140,7 @@ const useCredentials = () => {
         }
     };
 
-    return { addCredentials, validateCredentials };
+    return { setCredentials, addCredentials, validateCredentials };
 };
 
 export default useCredentials;

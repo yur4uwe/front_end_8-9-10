@@ -2,31 +2,32 @@ import React from 'react';
 import './TextArea.css';
 
 /**
- * Text input component
- * @param {Object} props
- * @param {string} props.name The label for the input.
- * @param {string} [props.value] The current input value.
- * @param {string} [props.className] Additional CSS classes.
- * @param {string} [props.placeholder] Placeholder text.
- * @param {function} [props.onFocus] Focus handler.
- * @param {function} [props.onBlur] Blur handler.
- * @param {function} [props.onChange] Change handler.
+ * A simple controlled text input component.
+ * 
+ * @param {object} props
+ * @param {string} props.name - The label/name for the input.
+ * @param {string} props.value - The current value.
+ * @param {string} props.type - The input type (e.g. "text", "email", "tel").
+ * @param {string} props.placeholder - The placeholder text.
+ * @param {function} props.onChange - Change handler.
+ * @param {string} [props.color] - Text color.
+ * @returns {JSX.Element}
  */
-const TextArea = ({ type, name, value, className, placeholder, onFocus, onBlur, onChange, color }) => {
-    const inputId = name ? name.toLowerCase().replace(/\s+/g, '-') : undefined;
+const TextArea = ({ name, value, type, placeholder, onChange, color }) => {
     return (
-        <div className={`text-area ${className ?? ''}`}>
+        <div className="text-area">
+            {name && (
+                <label className="text-area-title" style={{ backgroundColor: color }}>
+                    {name}
+                </label>
+            )}
             <input
-                id={inputId}
-                type={type ?? 'text'}
                 className="text-area-input"
-                placeholder={placeholder ?? 'Type here...'}
-                onFocus={onFocus}
-                onBlur={onBlur}
-                onChange={onChange}
-                value={value}   // For a controlled component
+                type={type}
+                value={value}
+                placeholder={placeholder}
+                onChange={(e) => onChange(e)}
             />
-            {name && <label htmlFor={inputId} className="text-area-title" style={{ background: color }}>{name}</label>}
         </div>
     );
 };
