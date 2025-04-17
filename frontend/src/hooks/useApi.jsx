@@ -26,7 +26,7 @@ const useApi = () => {
             setError(err.message);
             console.error(`Error in API request to ${url}:`, err.message);
         }
-    }, []);
+    }, [apiUrl]);
 
     return { request, error };
 };

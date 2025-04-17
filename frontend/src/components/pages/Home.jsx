@@ -8,8 +8,8 @@ const Home = () => {
         <div className='home'>
             <ContentBox>
                 <div className="flex-center column">
-                    <h1>Welcome to CineSpot</h1>
-                    <h2>Now Showing</h2>
+                    <h1 className='title'>Welcome to CineSpot</h1>
+                    <h2 className='title__under'>Now Showing</h2>
                 </div>
             </ContentBox>
             <ContentBox>

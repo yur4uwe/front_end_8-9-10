@@ -35,7 +35,6 @@ const MovieList = () => {
     const fetchMovies = useCallback(async () => {
         try {
             const response = await request(`/movies/short?columns=${columns}&perColumn=5`);
-            console.log('Fetched movies:', response);
             setMovies(response);
         } catch (error) {
             console.error('Error fetching movies:', error);
@@ -53,7 +52,6 @@ const MovieList = () => {
 
     // Fetch movies on mount
     useEffect(() => {
-        console.log('MovieList mounted, fetching movies...');
         fetchMovies();
     }, [apiUrl, columns, fetchMovies]);
 

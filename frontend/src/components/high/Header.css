@@ -12,7 +12,6 @@
     box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.4);
     transition: all 0.3s ease;
     z-index: 100;
-    overflow: hidden;
     margin: 10px;
     border-radius: 5px;
 }
@@ -20,6 +19,7 @@
 /* Gradient overlay on the picture element */
 .header-sticky picture {
     position: relative;
+    overflow: hidden;
 }
 
 .header-sticky picture::before {
@@ -59,12 +59,6 @@
 .header-sticky.--scrolled .header-title {
     font-size: 1.2rem;
     /* Smaller font size when scrolled */
-}
-
-/* Navigation styles */
-.header-nav {
-    display: flex;
-    gap: 15px;
 }
 
 .header-link {
@@ -135,29 +129,7 @@
     /* Hide filler box when scrolled */
 }
 
-.header-container {
-    padding: 0 40px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-}
 
-.header-minimized>.header-container {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.header-container>.header-nav {
-    flex-direction: column;
-    padding-left: 50px;
-}
-
-.header-minimized>.header-container>.header-nav {
-    flex-direction: row;
-    padding-left: 0px;
-    /* Horizontal layout when scrolled */
-}
 
 picture {
     display: block;
@@ -165,4 +137,36 @@ picture {
     width: 100%;
     height: 100%;
     /* Full width and height of the header */
+}
+
+@media screen and (max-width: 768px) {
+    .header-sticky {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .header-title {
+        font-size: 1.5rem;
+        margin: 0;
+    }
+
+    .header-link {
+        font-size: 0.9rem;
+    }
+
+    .header-sticky picture::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom,
+                #1e2c3a 0%,
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.5) 100%);
+        pointer-events: none;
+    }
 }

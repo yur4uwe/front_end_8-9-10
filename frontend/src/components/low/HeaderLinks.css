@@ -1,6 +1,6 @@
 .header-container {
     padding: 0 40px;
-    width: 100%;
+    width: calc(100% - 80px);
     display: flex;
     flex-direction: column;
 }
@@ -8,6 +8,13 @@
 /* When header is minimized, adjust layout */
 .header-minimized>.header-container {
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Header top (title + burger icon) */
+.header-top {
+    display: flex;
     justify-content: space-between;
     align-items: center;
 }
@@ -21,16 +28,18 @@
 /* Navigation container */
 .header-nav {
     display: flex;
-    gap: 15px;
+    justify-content: space-between;
+    align-items: normal;
+    gap: 20px;
     flex-direction: column;
     padding-left: 50px;
 }
 
-/* When minimized, show horizontal navigation */
-.header-minimized>.header-container>.header-nav {
+.header-minimized .header-nav {
     flex-direction: row;
-    padding-left: 0;
+    padding-left: 10px;
 }
+
 
 /* Navigation link styling */
 .header-link {
@@ -42,4 +51,86 @@
 
 .header-link:hover {
     color: var(--link-hover);
+}
+
+/* Burger icon styling */
+.burger-icon {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 24px;
+    width: 30px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.burger-icon span {
+    display: block;
+    height: 3px;
+    background: var(--light-bg-text);
+    border-radius: 2px;
+    transition: background 0.3s ease;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .burger-icon {
+        display: flex;
+    }
+
+    /* Adjust header container for mobile */
+    .header-container {
+        padding: 10px;
+    }
+
+    /* Dropdown navigation for phones */
+
+
+    .header-nav {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        right: 0;
+
+        z-index: -1;
+        opacity: 0;
+        flex-direction: column;
+        gap: 10px;
+        background-color: var(--component-bg);
+        padding: 10px;
+        padding-left: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transform: translateY(-200%);
+
+        transition: transform 0.3s ease, opacity 0.2s ease;
+    }
+
+    /* Show dropdown navigation when active */
+    .header-nav.active {
+        opacity: 1;
+        transform: translateY(0);
+        z-index: 1;
+
+        transition: transform 0.3s ease,
+            opacity 0.2s ease;
+    }
+
+    .header-sticky:not(.header-minimized) .header-nav {
+        position: initial;
+    }
+
+    .header-sticky:not(.header-minimized) .header-nav:not(.active) {
+        height: 0;
+    }
+
+    .header-minimized .header-nav.active {
+        flex-direction: column;
+    }
+
+    .header-minimized .header-container {
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: normal;
+    }
 }

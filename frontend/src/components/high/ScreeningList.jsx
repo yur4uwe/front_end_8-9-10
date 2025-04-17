@@ -13,6 +13,9 @@ import './ScreeningList.css';
  * @returns 
  */
 const ScreeningList = ({ screenings }) => {
+    const screeningDaysPerColumn = Math.floor((window.innerWidth - 40) / 210); // 200px per column
+    console.log(screeningDaysPerColumn);
+
     /**
      * 
      * @param {Screening[]} screening 

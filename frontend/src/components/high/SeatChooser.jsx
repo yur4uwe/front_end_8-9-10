@@ -3,6 +3,7 @@ import ContentBox from '../wrappers/ContentBox';
 import { SeatBookingCtx } from '../../context/SeatBookingContext';
 import Loader from '../low/Loader';
 import Seats from './Seats';
+import './SeatChooser.css';
 
 const SeatChooser = () => {
     const { loading } = useContext(SeatBookingCtx);
@@ -17,7 +18,6 @@ const SeatChooser = () => {
                         viewBox="0 0 200 40"
                         xmlns="http://www.w3.org/2000/svg"
                         preserveAspectRatio="xMidYMid meet"
-                        style={{ width: '600px', height: '120px' }}  // setting explicit dimensions
                     >
                         <path d="M0 40 C50 0, 150 0, 200 40" fill="none" stroke="#e0e0e0" strokeWidth="1" />
                         <text x="100" y="35" fill="#fff" fontSize="14" textAnchor="middle">

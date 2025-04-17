@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import HeaderLinks from '../low/HeaderLinks';
+import HeaderLinks from 'src/components/low/HeaderLinks';
 import HeaderImage from '../low/HeaderImage';
 import './Header.css';
 

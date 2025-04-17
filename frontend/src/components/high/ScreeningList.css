@@ -29,6 +29,7 @@
     border-right: 2px solid var(--main-bg);
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .day-screenings {
@@ -36,4 +37,31 @@
     grid-template-columns: repeat(2, minmax(20px, 1fr));
     gap: 0;
     width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    .booking-container h1 {
+        text-align: center;
+    }
+
+    .screenings-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 10px;
+        width: 100%;
+        border: none;
+    }
+
+    .day-screenings {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    }
+
+    .screening-day {
+        width: calc(100% - 24px);
+        padding: 10px;
+        border-left: none;
+        border: 2px solid var(--main-bg);
+        margin: 5px 0;
+        border-radius: 10px;
+    }
 }

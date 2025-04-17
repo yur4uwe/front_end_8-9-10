@@ -14,7 +14,7 @@ const MyBookings = () => {
     const [bookings, setBookings] = useState([]);
     const { request, error } = useApi(); // Assuming you have a custom hook for API requests
     const { openNotice } = useContext(OverlayNoticeContext)
-    const { setCredentials, addCredentials, validateCredentials } = useCredentials()
+    const { setCredentials, validateCredentials } = useCredentials()
 
     const fetchBookings = useCallback(async () => {
         console.log('Fetching bookings with:', { name, email, phone });
@@ -55,7 +55,7 @@ const MyBookings = () => {
         }
 
         setBookings(bookings || []);
-    }, [name, email, phone, request, openNotice, addCredentials, validateCredentials]);
+    }, [name, email, phone, request, error, openNotice, setCredentials, validateCredentials]);
 
     return (
         <div className='my-bookings-container'>
