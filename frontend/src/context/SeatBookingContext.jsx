@@ -76,7 +76,7 @@ const SeatBookingProvider = ({ screeningId, children }) => {
             console.log("Saving selectedSeats to localStorage:", selectedSeats); // Debugging line
             localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
         }
-    }, [selectedSeats]);
+    }, [selectedSeats, loading]);
 
     const fetchScreening = useCallback(async () => {
         try {

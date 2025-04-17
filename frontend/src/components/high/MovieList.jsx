@@ -1,6 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import MovieCard from '../low/MovieCard';
-import { SourceContext } from '../../context/SourceContext';
 import Loader from '../low/Loader';
 import './MovieList.css';
 import useApi from '../../hooks/useApi';
@@ -28,20 +27,20 @@ const MovieList = () => {
     const [movies, setMovies] = useState([]); // movies list
     const [loading, setLoading] = useState(true);
     const [columns, setColumns] = useState(calculateColumns()); // Number of columns in the grid
-    const { apiUrl } = useContext(SourceContext);
-    const { request } = useApi(); // Assuming you have a custom hook for API requests
+    const { request, error } = useApi(); // Assuming you have a custom hook for API requests
 
     // Fetch movies from backend
     const fetchMovies = useCallback(async () => {
-        try {
-            const response = await request(`/movies/short?columns=${columns}&perColumn=5`);
-            setMovies(response);
-        } catch (error) {
+        const response = await request(`/movies/short?columns=${columns}&perColumn=5`);
+        if (error) {
             console.error('Error fetching movies:', error);
-        } finally {
             setLoading(false);
+            return;
         }
-    }, [apiUrl, columns]);
+
+        setMovies(response.movies);
+        setLoading(false);
+    }, [columns, request, error]);
 
     // Set up resize listener to recalc columns
     useEffect(() => {
@@ -53,7 +52,7 @@ const MovieList = () => {
     // Fetch movies on mount
     useEffect(() => {
         fetchMovies();
-    }, [apiUrl, columns, fetchMovies]);
+    }, [fetchMovies]);
 
     // Render MovieCards using the dynamically calculated column count.
     const renderMovieCards = () => {

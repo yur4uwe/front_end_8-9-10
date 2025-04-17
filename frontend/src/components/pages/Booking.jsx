@@ -33,25 +33,20 @@ const Booking = () => {
     const { id: movieId } = useParams();
     const [screenings, setScreenings] = useState([]);
     const [movieName, setMovieName] = useState(''); // State to hold the movie name
-    const { request } = useApi(); // Assuming you have a custom hook for API requests
+    const { request, error } = useApi(); // Assuming you have a custom hook for API requests
 
     const fetchMovieScreenings = useCallback(async () => {
-        try {
-            const response = await request(`/movie/screenings?movieId=${movieId}`);
-            console.log('Fetched movie screenings:', response); // Debugging line
-
-            setMovieName(response.movie.title); // Assuming the API returns the movie name
-            setScreenings(response.screenings ?? []); // Ensure we set an empty array if no screenings are found
-
-            console.log('Movie Name:', movieName); // Debugging line
-
-        } catch (error) {
+        const response = await request(`/movie/screenings?movieId=${movieId}`);
+        if (error) {
             console.error('Error fetching movie screenings:', error);
+            return;
         }
-    }, [movieId, movieName]);
+
+        setMovieName(response.movie.title); // Assuming the API returns the movie name
+        setScreenings(response.screenings ?? []); // Ensure we set an empty array if no screenings are found
+    }, [movieId, request, error]);
 
     useEffect(() => {
-        console.log('Booking component mounted or dependencies changed, fetching screenings...');
         fetchMovieScreenings();
     }, [fetchMovieScreenings]);
 

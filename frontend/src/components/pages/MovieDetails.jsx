@@ -8,7 +8,7 @@ import './MovieDetails.css';
 import useApi from '../../hooks/useApi';
 
 const MovieDetails = () => {
-    const { request } = useApi()
+    const { request, error } = useApi()
     const { id: movieId } = useParams();
     /**
      * State to hold movie details.
@@ -18,17 +18,17 @@ const MovieDetails = () => {
 
     // Memoize fetchMovieDetails and include fetchMovieScreenings in its dependencies.
     const fetchMovieDetails = useCallback(async () => {
-        try {
-            const response = await request(`/movie?movieId=${movieId}`);
-            setMovie(response || {});
-        } catch (error) {
+        const response = await request(`/movie?movieId=${movieId}`);
+        if (error) {
             console.error('Error fetching movie details:', error);
+            return;
         }
-    }, [movieId]);
+
+        setMovie(response);
+    }, [movieId, request, error]);
 
     // Call fetchMovieDetails whenever dependencies change.
     useEffect(() => {
-        console.log('MovieDetails mounted or dependencies changed, fetching movie details...');
         fetchMovieDetails();
     }, [fetchMovieDetails]);
 
