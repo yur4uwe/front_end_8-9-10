@@ -10,24 +10,29 @@ import { SourceProvider } from './context/SourceContext'; // Import the context 
 import SeatArrangement from './components/pages/SeatArrangement'; // Adjust the import path as necessary
 import MyBookings from './components/pages/MyBookings';
 import './App.css'; // Import global styles
+import { OverlayNoticeProvider } from './context/OverlayNoticeContext';
+import Notice from './components/high/Notice'; // Import the Notice component
 
 const App = () => {
     return (
         <SourceProvider>
-            <Router>
-                <Header />
-                <main className='main-content'>
-                    <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route path="/book/:id/" component={Booking} />
-                        <Route path="/booking/:id/:time" component={SeatArrangement} /> {/* Adjust the path as necessary */}
-                        <Route path="/my-bookings" component={MyBookings} /> {/* Adjust the path as necessary */}
-                        <Route path="/movie/:id" component={MovieDetails} /> {/* Adjust the path as necessary */}
-                        <Route path="*" component={NotFound} />
-                    </Switch>
-                </main>
-                <Footer />
-            </Router>
+            <OverlayNoticeProvider>
+                <Notice/>
+                <Router>
+                    <Header />
+                    <main className='main-content'>
+                        <Switch>
+                            <Route exact path="/" component={Home} />
+                            <Route path="/book/:id/" component={Booking} />
+                            <Route path="/booking/:id/:time" component={SeatArrangement} />
+                            <Route path="/my-bookings" component={MyBookings} />
+                            <Route path="/movie/:id" component={MovieDetails} />
+                            <Route path="*" component={NotFound} />
+                        </Switch>
+                    </main>
+                    <Footer />
+                </Router>
+            </OverlayNoticeProvider>
         </SourceProvider>
     );
 };

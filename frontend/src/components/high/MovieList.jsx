@@ -3,6 +3,7 @@ import MovieCard from '../low/MovieCard';
 import { SourceContext } from '../../context/SourceContext';
 import Loader from '../low/Loader';
 import './MovieList.css';
+import useApi from '../../hooks/useApi';
 
 const MovieListFallBack = () => {
     return (
@@ -28,14 +29,14 @@ const MovieList = () => {
     const [loading, setLoading] = useState(true);
     const [columns, setColumns] = useState(calculateColumns()); // Number of columns in the grid
     const { apiUrl } = useContext(SourceContext);
+    const { request } = useApi(); // Assuming you have a custom hook for API requests
 
     // Fetch movies from backend
     const fetchMovies = useCallback(async () => {
         try {
-            const response = await fetch(`${apiUrl}/movies/short?columns=${columns}&perColumn=5`);
-            const data = await response.json();
-            console.log('Fetched movies:', data);
-            setMovies(data);
+            const response = await request(`/movies/short?columns=${columns}&perColumn=5`);
+            console.log('Fetched movies:', response);
+            setMovies(response);
         } catch (error) {
             console.error('Error fetching movies:', error);
         } finally {

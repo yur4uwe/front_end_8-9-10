@@ -90,18 +90,21 @@ const SeatReceipt = () => {
                         <div className="confirm-inputs">
                             <TextArea
                                 name="Name"
+                                value={name}
                                 className="receipt-text-area"
                                 placeholder="Type here..."
                                 onChange={(e) => setName(e.target.value)}
                             />
                             <TextArea
                                 name="Email"
+                                value={email}
                                 className="receipt-text-area"
                                 placeholder="Type here..."
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                             <TextArea
                                 name="Phone"
+                                value={phone}
                                 className="receipt-text-area"
                                 placeholder="Type here..."
                                 onChange={(e) => setPhone(e.target.value)}

@@ -1,0 +1,54 @@
+.overlay-notice-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.overlay-notice-content {
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 300px;
+    text-align: center;
+    height: min-content;
+}
+
+/* Background colors based on type */
+.overlay-notice-success {
+    background-color: #4caf50;
+}
+
+.overlay-notice-error {
+    background-color: #f44336;
+}
+
+.overlay-notice-info {
+    background-color: #2196f3;
+}
+
+.overlay-notice-button {
+    margin-top: 10px;
+    background-color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Button text color based on content background */
+.overlay-notice-success .close-button {
+    color: #4caf50;
+}
+
+.overlay-notice-error .close-button {
+    color: #f44336;
+}
+
+.overlay-notice-info .close-button {
+    color: #2196f3;
+}

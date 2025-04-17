@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -49,42 +48,6 @@ func ConnectTo(collName string) (*mongo.Client, *mongo.Collection, context.Cance
 	return client, collection, cancel, nil
 }
 
-func Get(collection *mongo.Collection, filter bson.D, ctx context.Context, limit int) ([]map[string]interface{}, error) {
-	cursor, err := collection.Find(ctx, bson.D{}, options.Find().SetLimit(int64(limit)))
-	if err != nil {
-		return nil, err
-	}
-	defer cursor.Close(ctx)
-
-	if err := cursor.Err(); err != nil {
-		return nil, err
-	}
-
-	if !cursor.Next(ctx) {
-		return nil, err
-	}
-
-	var documents []map[string]interface{}
-	if err := cursor.All(ctx, &documents); err != nil {
-		return nil, err
-	}
-
-	return documents, nil
-}
-
-func GetOne(collection *mongo.Collection, filter bson.D, ctx context.Context) (map[string]interface{}, error) {
-	var result map[string]interface{}
-	err := collection.FindOne(ctx, filter).Decode(&result)
-	if err != nil {
-		return nil, err
-	}
-	return result, nil
-}
-
-func GetById(collection *mongo.Collection, id string, ctx context.Context) (map[string]interface{}, error) {
-	filter := bson.D{{Key: "_id", Value: id}}
-	return GetOne(collection, filter, ctx)
-}
 func ObjectId(id string) (primitive.ObjectID, error) {
 	return primitive.ObjectIDFromHex(id)
 }

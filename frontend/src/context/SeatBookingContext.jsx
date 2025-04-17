@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useCallback, useContext } fr
 import { useHistory } from 'react-router-dom'; // Importing necessary hooks from react-router-dom
 import useApi from '../hooks/useApi'; // Assuming you have a custom hook for API requests
 import { SourceContext } from './SourceContext';
+import { OverlayNoticeContext } from './OverlayNoticeContext';
 
 /**
  * @typedef {Object} Seat
@@ -54,7 +55,7 @@ const SeatBookingProvider = ({ screeningId, children }) => {
     const history = useHistory(); // Using useHistory from react-router-dom for navigation
     const { request } = useApi(); // Assuming you have a custom hook for API requests
     const { apiUrl } = useContext(SourceContext);
-
+    const { openNotice, closeNotice } = useContext(OverlayNoticeContext); // Assuming you have a context for notices
 
     const fetchScreening = useCallback(async () => {
         try {
@@ -122,6 +123,7 @@ const SeatBookingProvider = ({ screeningId, children }) => {
 
             if (response.message === 'Booking confirmed') {
                 alert('Seats confirmed successfully!');
+                openNotice('Success!', 'Your seats have been booked successfully!', 'success', closeNotice);
                 history.push('/'); // Redirect to the home page or any other page after confirmation
                 setSelectedSeats([]); // Clear selected seats after confirmation
                 setIsModalOpen(false); // Close the modal after confirmation

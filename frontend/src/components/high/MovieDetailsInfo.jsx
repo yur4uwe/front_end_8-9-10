@@ -21,7 +21,6 @@ const MovieDetailsInfo = ({ movie }) => {
                 <p><strong>Genre:</strong> {movie.genre}</p>
                 <p><strong>Director:</strong> {movie.director}</p>
                 <p><strong>Cast:</strong> {movie.cast}</p>
-                <MovieOverview>{movie.overview}</MovieOverview>
                 <p><strong>Rating:</strong> <img src={imageBaseUrl + "rating-star.png"} alt="R:" className='rating-star' /> {movie.rating}</p>
                 <p><strong>Duration:</strong> {movie.duration}</p>
                 <p><strong>Language:</strong> {movie.language}</p>
@@ -30,6 +29,8 @@ const MovieDetailsInfo = ({ movie }) => {
                     <LinkWrapper linkTo={movie.watchUrl}>Watch Movie</LinkWrapper>
                     <LinkWrapper linkTo={`/book/${movie._id}`}>Book Tickets</LinkWrapper>
                 </div>
+                <MovieOverview>{movie.overview}</MovieOverview> 
+                
             </div>
         </ContentBox>
     );

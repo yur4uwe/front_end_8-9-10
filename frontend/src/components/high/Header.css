@@ -11,7 +11,7 @@
     justify-content: space-between;
     box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.4);
     transition: all 0.3s ease;
-    z-index: 1000;
+    z-index: 100;
     overflow: hidden;
     margin: 10px;
     border-radius: 5px;
