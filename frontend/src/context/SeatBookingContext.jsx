@@ -55,6 +55,29 @@ const SeatBookingProvider = ({ screeningId, children }) => {
     const { request } = useApi(); // Assuming you have a custom hook for API requests
     const { openNotice } = useContext(OverlayNoticeContext); // Assuming you have a context for notices
 
+    // Load selectedSeats on mount
+    useEffect(() => {
+        const storedSeats = JSON.parse(localStorage.getItem('selectedSeats'));
+        console.log("Stored seats from localStorage:", storedSeats); // Debugging line
+
+        if (storedSeats.length > 0) {
+            try {
+                setSelectedSeats(storedSeats);
+            } catch (error) {
+                console.error("Error parsing selectedSeats from localStorage:", error);
+                setSelectedSeats([]);
+            }
+        }
+    }, []);
+
+    // Save selectedSeats whenever it changes
+    useEffect(() => {
+        if (!loading) {
+            console.log("Saving selectedSeats to localStorage:", selectedSeats); // Debugging line
+            localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+        }
+    }, [selectedSeats]);
+
     const fetchScreening = useCallback(async () => {
         try {
             const response = await request(`/movie/screening?screeningId=${screeningId}`);
