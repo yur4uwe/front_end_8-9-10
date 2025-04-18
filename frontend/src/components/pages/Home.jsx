@@ -1,6 +1,7 @@
 import React from 'react';
-import ContentBox from '../wrappers/ContentBox';
-import MovieList from '../high/MovieList';
+import ContentBox from 'src/components/wrappers/ContentBox';
+import MovieList from 'src/components/high/MovieList';
+import MovieSearchBar from 'src/components/low/MovieSearchBar';
 import './Home.css'; // Import the CSS file for styling
 
 const Home = () => {
@@ -13,6 +14,7 @@ const Home = () => {
                 </div>
             </ContentBox>
             <ContentBox>
+                <MovieSearchBar />
                 <MovieList />
             </ContentBox>
         </div>

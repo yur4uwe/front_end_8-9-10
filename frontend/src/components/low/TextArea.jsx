@@ -13,7 +13,7 @@ import './TextArea.css';
  * @param {string} [props.color] - Text color.
  * @returns {JSX.Element}
  */
-const TextArea = ({ name, value, type, placeholder, onChange, color }) => {
+const TextArea = ({ name, value, type, placeholder, onChange, color, className }) => {
     return (
         <div className="text-area">
             {name && (
@@ -22,11 +22,11 @@ const TextArea = ({ name, value, type, placeholder, onChange, color }) => {
                 </label>
             )}
             <input
-                className="text-area-input"
                 type={type}
                 value={value}
                 placeholder={placeholder}
                 onChange={(e) => onChange(e)}
+                className={`${className} text-area-input`}
             />
         </div>
     );

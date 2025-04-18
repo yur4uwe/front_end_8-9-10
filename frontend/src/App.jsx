@@ -12,28 +12,39 @@ import { SourceProvider } from './context/SourceContext'; // Import the context 
 import { OverlayNoticeProvider } from './context/OverlayNoticeContext';
 import Notice from './components/high/Notice'; // Import the Notice component
 import './App.css'; // Import global styles
+import MovieContextProvider from './context/MovieContext';
 
-const App = () => {
+const RenderWithProviders = ({ children }) => {
     return (
         <SourceProvider>
             <OverlayNoticeProvider>
-                <Notice />
-                <Router>
-                    <Header />
-                    <main className='main-content'>
-                        <Switch>
-                            <Route exact path="/" component={Home} />
-                            <Route path="/book/:id/" component={Booking} />
-                            <Route path="/booking/:id/:time" component={SeatArrangement} />
-                            <Route path="/my-bookings" component={MyBookings} />
-                            <Route path="/movie/:id" component={MovieDetails} />
-                            <Route path="*" component={NotFound} />
-                        </Switch>
-                    </main>
-                    <Footer />
-                </Router>
+                <MovieContextProvider>
+                    {children}
+                </MovieContextProvider>
             </OverlayNoticeProvider>
         </SourceProvider>
+    );
+}
+
+const App = () => {
+    return (
+        <RenderWithProviders>
+            <Router>
+                <Notice />
+                <Header />
+                <main className='main-content'>
+                    <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route path="/book/:id/" component={Booking} />
+                        <Route path="/booking/:id/:time" component={SeatArrangement} />
+                        <Route path="/my-bookings" component={MyBookings} />
+                        <Route path="/movie/:id" component={MovieDetails} />
+                        <Route path="*" component={NotFound} />
+                    </Switch>
+                </main>
+                <Footer />
+            </Router>
+        </RenderWithProviders>
     );
 };
 

@@ -1,0 +1,13 @@
+.movie-search-input {
+    max-width: none;
+    margin-bottom: 20px;
+    background-color: #1c2b3f;
+    color: var(--light-bg-text);
+
+}
+
+.movie-search-input::placeholder {
+    color: var(--ghostly-text);
+    font-size: 1rem;
+    transition: font-size 0.3s ease;
+}
