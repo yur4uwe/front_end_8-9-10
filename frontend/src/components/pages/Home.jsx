@@ -2,7 +2,7 @@ import React from 'react';
 import ContentBox from 'src/components/wrappers/ContentBox';
 import MovieList from 'src/components/high/MovieList';
 import MovieSearchBar from 'src/components/low/MovieSearchBar';
-import './Home.css'; // Import the CSS file for styling
+import './Home.css';
 
 const Home = () => {
     return (

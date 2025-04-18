@@ -13,13 +13,12 @@ const MovieListFallBack = () => {
 };
 
 const MovieList = () => {
-    const { movies, loading, columns, searchTerm } = useContext(MovieContext); // Assuming you have a custom hook for API requests
+    const { movies, loading, columns, searchTerm } = useContext(MovieContext);
 
-    // Render MovieCards using the dynamically calculated column count.
     const renderMovieCards = () => {
         return movies.map((movie, index) => {
             if (searchTerm && !movie.title.toLowerCase().includes(searchTerm.toLowerCase())) {
-                return null; // Skip rendering if the movie doesn't match the search term
+                return null;
             }
             const isLastChild = ((index + 1) % columns === 0);
             return (
@@ -32,12 +31,10 @@ const MovieList = () => {
         });
     };
 
-    console.log('movies', movies);
-    console.log('render length', !renderMovieCards().some((value) => value !== null));
-
-
     if (loading) return <Loader description="Loading Movies" />;
-    if (!movies || movies.length === 0 || !renderMovieCards().some((value) => value !== null)) return <MovieListFallBack />;
+    if (
+        !movies || movies.length === 0 || !renderMovieCards().some((value) => value !== null)
+    ) return <MovieListFallBack />;
 
     return (
         <div className="movie-grid">

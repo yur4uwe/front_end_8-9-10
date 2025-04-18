@@ -35,10 +35,13 @@ import Clickable from '../wrappers/Clickable';
  * @returns {JSX.Element}
  */
 const MovieCard = ({ movie, isLastChild }) => {
-    const { imageBaseUrl } = useContext(SourceContext); // Assuming you have a context for the image base URL
+    const { imageBaseUrl } = useContext(SourceContext);
 
     return (
-        <Clickable link={`/movie/${movie._id}`} className={`movie-card ${isLastChild ? 'last-child' : ''} flex-center column`}>
+        <Clickable
+            link={`/movie/${movie._id}`}
+            className={`movie-card ${isLastChild ? 'last-child' : ''} flex-center column`}
+        >
             <img src={movie.imageUrl} alt={movie.title} className='movie-poster' />
             <div className={`movie-card-details ${isLastChild ? 'last-child' : ''}`}>
                 <h3 className='movie-title'>{movie.title}</h3>

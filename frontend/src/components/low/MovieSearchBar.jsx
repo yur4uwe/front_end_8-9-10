@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import TextArea from './TextArea';
 import { MovieContext } from 'src/context/MovieContext';
-import './MovieSearchBar.css'; // Assuming you have a CSS file for styling
+import './MovieSearchBar.css';
 
 const MovieSearchBar = () => {
-    const { searchTerm, setSearchTerm } = useContext(MovieContext); // Assuming you have a context for managing movies
-
+    const { searchTerm, setSearchTerm } = useContext(MovieContext);
     return (
         <div className='movie-search-bar'>
             <TextArea

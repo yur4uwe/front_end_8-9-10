@@ -31,14 +31,12 @@ const calculateColumns = () => {
 };
 
 const MovieContextProvider = ({ children }) => {
-    const [movies, setMovies] = useState([]); // movies list
+    const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [searchTerm, setSearchTerm] = useState(''); // Search term for filtering movies
-    const [columns, setColumns] = useState(calculateColumns()); // Number of columns in the grid
-    const { request, error } = useApi(); // Assuming you have a custom hook for API requests
+    const [searchTerm, setSearchTerm] = useState('');
+    const [columns, setColumns] = useState(1);
+    const { request, error } = useApi();
 
-
-    // Fetch movies from backend
     const fetchMovies = useCallback(async () => {
         const response = await request(`/movies/short?columns=${columns}&perColumn=5`);
         if (error) {
@@ -51,8 +49,6 @@ const MovieContextProvider = ({ children }) => {
         setLoading(false);
     }, [columns, request, error]);
 
-
-
     // Set up resize listener to recalc columns
     useEffect(() => {
         setColumns(calculateColumns()); // initial calculation
@@ -60,8 +56,6 @@ const MovieContextProvider = ({ children }) => {
         return () => window.removeEventListener('resize', () => setColumns(calculateColumns));
     }, [fetchMovies]);
 
-
-    // Fetch movies on mount
     useEffect(() => {
         fetchMovies();
     }, [fetchMovies]);
@@ -72,10 +66,10 @@ const MovieContextProvider = ({ children }) => {
             loading,
             searchTerm,
             columns,
-            setMovies, // Expose setMovies if you need to update the movies list from other components
-            setLoading, // Expose setLoading if you need to update the loading state from other components
+            setMovies,
+            setLoading,
             setSearchTerm,
-            setColumns, // Expose setColumns if you need to update the columns from other components
+            setColumns,
             fetchMovies,
         }}>
             {children}
