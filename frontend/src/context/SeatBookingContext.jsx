@@ -147,6 +147,7 @@ const SeatBookingProvider = ({ screeningId, children }) => {
                 history.push('/'); // Redirect to the home page or any other page after confirmation
                 setSelectedSeats([]); // Clear selected seats after confirmation
                 setIsModalOpen(false); // Close the modal after confirmation
+                localStorage.removeItem('selectedSeats'); // Clear local storage
             }
 
         } catch (error) {
