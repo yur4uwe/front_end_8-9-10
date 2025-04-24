@@ -46,7 +46,7 @@ const useCredentials = () => {
      * Validates the given credentials.
      *
      * @param {CredentialsObject} credentials
-     * @returns {boolean} Returns true if credentials are valid.
+     * @returns {{passed:boolean, message: string}} Returns true if credentials are valid.
      */
     const validateCredentials = (providedCredentials = null) => {
         console.log('Validating credentials:', credentials);

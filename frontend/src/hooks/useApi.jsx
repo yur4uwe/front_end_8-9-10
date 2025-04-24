@@ -13,7 +13,9 @@ const useApi = () => {
     const request = useCallback(async (url, verbose, options = {}) => {
         try {
             const response = await fetch(`${apiUrl}${url}`, options);
+            
             if (!response.ok) {
+                console.log(response.status, response.statusText);
                 const errorText = await response.text();
                 throw new Error(errorText || 'API request failed');
             }

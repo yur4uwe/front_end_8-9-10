@@ -35,7 +35,11 @@ const MyBookings = () => {
         }
 
         const bookings = await request(`/bookings?name=${name}&email=${email}&phone=${phone}`)
-        if (error) {
+        console.log('Bookings:', bookings);
+        console.log('Error:', error);
+        
+        if (error || !bookings) {
+            console.error('Error fetching bookings:', error);
             openNotice(error, 'error')
             return;
         }
@@ -43,7 +47,12 @@ const MyBookings = () => {
         for (const booking of bookings) {
             const movieId = booking.movieId;
             try {
-                const movie = await request(`/movie?movieId=${movieId}`);
+                const movie = request(`/movie?movieId=${movieId}`);
+                console.log(booking, movie);
+                
+                if (error) {
+                    openNotice(error, 'error')
+                }
                 if (movie) {
                     booking.movie = movie;
                 } else {

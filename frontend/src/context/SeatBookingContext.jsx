@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useCallback, useContext } fr
 import { useHistory } from 'react-router-dom'; // Importing necessary hooks from react-router-dom
 import useApi from '../hooks/useApi'; // Assuming you have a custom hook for API requests
 import { OverlayNoticeContext } from 'src/context/OverlayNoticeContext';
+import useCredentials from 'src/hooks/useCredentials'; // Assuming you have a custom hook for credentials
 
 /**
  * @typedef {Object} Seat
@@ -54,13 +55,14 @@ const SeatBookingProvider = ({ screeningId, children }) => {
     const history = useHistory(); // Using useHistory from react-router-dom for navigation
     const { request } = useApi(); // Assuming you have a custom hook for API requests
     const { openNotice } = useContext(OverlayNoticeContext); // Assuming you have a context for notices
+    const { validateCredentials } = useCredentials(); // Assuming you have a custom hook for credentials
 
     // Load selectedSeats on mount
     useEffect(() => {
         const storedSeats = JSON.parse(localStorage.getItem('selectedSeats'));
         console.log("Stored seats from localStorage:", storedSeats); // Debugging line
 
-        if (storedSeats.length > 0) {
+        if (storedSeats && storedSeats.length > 0) {
             try {
                 setSelectedSeats(storedSeats);
             } catch (error) {
@@ -115,6 +117,11 @@ const SeatBookingProvider = ({ screeningId, children }) => {
         }
         if (name === '' || email === '' || phone === '') {
             openNotice('Please fill in all the fields!', 'error');
+            return;
+        }
+        const { passed, message } = validateCredentials({ name, email, phone });
+        if (!passed) {
+            openNotice(message, 'error');
             return;
         }
         if (!selectedSeats.every((seat) => seat.available)) {
